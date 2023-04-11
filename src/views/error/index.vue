@@ -1,19 +1,13 @@
 <template>
-    <p>您没有查看此页面的权限, 请<span class="error-relogin" @click="gotoLogin">重新登录</span></p>
-</template>
-<script>
-export default {    
-    methods: {
-        gotoLogin () {
-            this.$utils.storage.remove('userId', 'access')
-            this.$router.push({ path: '/login' })
-        }
-    }
-}
-</script>
-<style lang="scss" scoped>
-.error-relogin {
-    cursor: pointer;
-    text-decoration: underline;
-}
-</style>
+    <a-steps :current="1">
+      <a-step>
+        <!-- <span slot="title">Finished</span> -->
+        <template #title>Finished</template>
+        <template #description>
+          <span>This is a description.</span>
+        </template>
+      </a-step>
+      <a-step title="In Progress" sub-title="Left 00:00:08" description="This is a description." />
+      <a-step title="Waiting" description="This is a description." />
+    </a-steps>
+  </template>

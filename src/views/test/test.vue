@@ -1,11 +1,9 @@
 <script>
-//  vue 基本版有setup写法
-import { reactive, toRefs, computed, inject, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, ref } from 'vue'
-
+//  vue 基本版有setup写法 inject,
+import { reactive, toRefs, computed, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, ref } from 'vue'
 export default {
     name: 'testMySelf',
     components: {// 其他组件引用位置
-
     },
     props: { // 同vue2中写法，单独props添加
         name: {
@@ -26,8 +24,8 @@ export default {
         console.log(1)
         console.log('props', props.name)
         console.log('context', context)
-        const inject1 = inject("for1")
-        const changeAgePar = inject("changeAge")
+        // const inject1 = inject("for1")
+        // const changeAgePar = inject("changeAge")
         const state = reactive({
             // name: "hujunjie",
             age: 18,
@@ -45,7 +43,7 @@ export default {
         })
         onBeforeMount(() => {
             console.log('I am onBeforeMount')
-            console.log('inject1', inject1)
+            // console.log('inject1', inject1)
             console.log('str', str.value, arr.value, obj.value.aa)
         })
         onMounted(() => {
@@ -69,7 +67,7 @@ export default {
                 str.value++
                 arr.value.push(321)
                 obj.value.aa++
-                changeAgePar()
+                // changeAgePar()
             }
         }
         return {
@@ -87,11 +85,11 @@ export default {
 <template>
     <div class="test2">
         <div>{{ name }}-{{ age }}-{{ sex }}-{{ specialTag }}</div>
-        <button @click="testClick(1)">点击+1</button>
-        <button @click="testClick(-1)">点击-1</button>
+        <a-button type="primary" @click="testClick(1)">点击+1</a-button>
+        <a-button @click="testClick(-1)">点击-1</a-button>
         <div>console:{{ str }}-{{ arr[0] }}-{{ obj }}</div>
         <slot name="qq" :name1="name"></slot>
-        <hr/>
+        <a-input v-model="str" placeholder="Basic usage" />
     </div>
 </template>
 
@@ -99,8 +97,5 @@ export default {
 .test2 {
     width: 400px;
     margin: 0 auto;
-    button {
-        background-color: red;
-    }
 }
 </style>

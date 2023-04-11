@@ -1,11 +1,12 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import Error from '../views/error/index.vue'
-import Login from '../views/login/index.vue'
-import Test from '../views/test/index.vue'
-
-const router = createRouter({
-  history: createWebHashHistory(), // hash 模式
-  routes: [
+import { createRouter, createWebHashHistory,createWebHistory } from 'vue-router'
+import Error from '@/views/error/index.vue'
+import Login from '@/views/login/index.vue'
+const Test = import('@/views/test/index.vue')
+const routes = [
+    {
+        path: '',
+        redirect: '/login'
+    },
     {
       path: '/error',
       name: 'error',
@@ -19,9 +20,19 @@ const router = createRouter({
     {
         path: '/test',
         name: 'test',
-        component: Test
+        component: () => Test // 懒加载
     }
   ]
+const router = createRouter({
+  //   history: createWebHashHistory(), // hash 模式
+  history:createWebHistory(),
+  routes,
+  scrollBehavior () {
+    return {
+        selector: { x: 0, y: 0 },
+        behavior: 'smooth'
+    }
+}
 })
 
 export default router

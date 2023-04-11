@@ -1,10 +1,11 @@
 <template>
     <section class="trade-login">
-        <a href="javascript:void;" @click="click">登录</a>
+        <a-button @click="click">登录</a-button>
+        <a-button @click="get">获取测试</a-button>
     </section>
 </template>
 <script>
-
+import api from '@/api'
 export default {
     name: 'login',
     props: {},
@@ -25,6 +26,12 @@ export default {
     methods: {
         click(){
             this.$router.push({name:'error'})
+        },
+        get(){
+            api.getClientList()
+                .then(res=>{
+                    console.log(res)
+                })
         }
     },
     filters: {}
