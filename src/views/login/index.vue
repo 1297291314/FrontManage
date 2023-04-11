@@ -6,6 +6,7 @@
 </template>
 <script>
 import api from '@/api'
+import { mapGetters, mapMutations, mapActions} from 'vuex'
 export default {
     name: 'login',
     props: {},
@@ -19,15 +20,24 @@ export default {
             loginLoading: false
         }
     },
-    computed: {},
+    computed: {
+        ...mapGetters(['isManager','testArray'])
+        
+
+    },
     watch: {},
     created () {},
-    mounted () {},
+    mounted () {
+        this.getClientListAction(1)
+    },
     methods: {
+        ...mapMutations(['setIsManager']),
+        ...mapActions(['getClientListAction']),
         click(){
             this.$router.push({name:'error'})
         },
         get(){
+            console.log('isManager',this.isManager)
             api.getClientList()
                 .then(res=>{
                     console.log(res)

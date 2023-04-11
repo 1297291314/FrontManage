@@ -1,6 +1,6 @@
 import axios from '@/axios'
 
-const getClientList = () => axios.post(`getClientList`)
+const getClientList = (param) => axios.post(`getClientList`,param)
 
 
 export default {
