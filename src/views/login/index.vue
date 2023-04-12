@@ -37,7 +37,7 @@ export default {
             this.$router.push({name:'error'})
         },
         get(){
-            console.log('isManager',this.isManager)
+            console.log('isManager',this.isManager,this.testArray.id)
             api.getClientList()
                 .then(res=>{
                     console.log(res)

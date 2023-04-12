@@ -20,14 +20,14 @@ export default new Vuex.Store({
             state.isManager = payload.isManager
         },
         setTestArray: (state, payload) => {
-            state.testArray = [...payload.testArray]
+            state.testArray = {...payload.testArray}
         },
     },
     actions: {
         getClientListAction: ({ commit }, userId) => {
             api.getClientList(userId)
                 .then(res => {
-                    commit('setTestArray', { testArray: res })
+                    commit('setTestArray', { testArray: res[0]})
                 })
         }
     },
