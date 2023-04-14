@@ -1,8 +1,8 @@
 const gateway = '/api'
 
 const dev = {
-    api: `${gateway}`,
-    imageEx: `${gateway}`
+	api: `${gateway}`,
+	imageEx: `${gateway}`
 }
 
 export default dev
