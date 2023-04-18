@@ -1,5 +1,5 @@
 <template>
-	<Test :name="'test3'" />
+	<Test :name="'test3'" />11
 </template>
 
 <script>

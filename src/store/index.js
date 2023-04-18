@@ -3,18 +3,28 @@ import api from '@/api/index'
 
 export default new Vuex.Store({
 	state: {
+		IP:{},
+
+		//
 		isManager: false,
-		testArray: {}
+		testArray: {},
 	},
 	getters: {
+		IP: (state) => {
+			return state.IP
+		},
 		isManager: (state) => {
 			return state.isManager
 		},
+
 		testArray: (state) => {
 			return state.testArray
 		}
 	},
 	mutations: {
+		setIP: (state, payload) => {
+			state.IP = payload.IP
+		},
 		setIsManager: (state, payload) => {
 			state.isManager = payload.isManager
 		},

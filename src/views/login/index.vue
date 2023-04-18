@@ -11,7 +11,7 @@ export default {
 	name: 'login',
 	props: {},
 	components: {},
-	data() {
+	data () {
 		return {
 			loginForm: {
 				userId: '',
@@ -24,17 +24,17 @@ export default {
 		...mapGetters(['isManager', 'testArray'])
 	},
 	watch: {},
-	created() {},
-	mounted() {
+	created () { },
+	mounted () {
 		this.getClientListAction(1)
 	},
 	methods: {
 		...mapMutations(['setIsManager']),
 		...mapActions(['getClientListAction']),
-		click() {
+		click () {
 			this.$router.push({ name: 'error' })
 		},
-		get() {
+		get () {
 			console.log('isManager', this.isManager, this.testArray.id)
 			api.getClientList().then((res) => {
 				console.log(res)

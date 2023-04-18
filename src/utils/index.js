@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import storage from './storage'
+import storageSession from './sessionStorage'
 import Enum from './Enum'
 
 /**
@@ -222,6 +223,7 @@ function scientificToNumber(num) {
 export default {
 	Enum,
 	storage,
+	storageSession,
 	getUrlKey,
 	createUuid,
 	deepMerge,

@@ -9,8 +9,9 @@ export default defineConfig({
 	productionSourceMap: false, // 不生成map
 	resolve: {
 		alias: {
-			// 别名设置
-			'@': path.resolve(__dirname, './src')
+			// 别名设置(代码运行只要在这设置)
+			'@': path.resolve(__dirname, './src'),
+			'~@': path.resolve(__dirname, './src')
 		}
 	},
 	plugins: [
