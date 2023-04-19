@@ -4,7 +4,7 @@ import api from '@/api/index'
 export default new Vuex.Store({
 	state: {
 		IP:{},
-
+		userRoutes:[],
 		//
 		isManager: false,
 		testArray: {},
@@ -12,6 +12,9 @@ export default new Vuex.Store({
 	getters: {
 		IP: (state) => {
 			return state.IP
+		},
+		userRoutes: (state) => {
+			return state.userRoutes
 		},
 		isManager: (state) => {
 			return state.isManager
@@ -24,6 +27,9 @@ export default new Vuex.Store({
 	mutations: {
 		setIP: (state, payload) => {
 			state.IP = payload.IP
+		},
+		setUserRoutes: (state, payload) => {
+			state.userRoutes = payload.userRoutes
 		},
 		setIsManager: (state, payload) => {
 			state.isManager = payload.isManager

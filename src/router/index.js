@@ -5,10 +5,26 @@ import Error from '@/views/error/index.vue'
 import Login from '@/views/login/index.vue'
 import Layout from '@/views/layout/index.vue'
 import Entry from '@/views/entry/index.vue'
-// import store from '@/store'
+import store from '@/store'
 import storageSession from '@/utils/sessionStorage'
 const Test = import('@/views/test/index.vue')
-
+const userRoutes = [
+	{
+		path: '/T',
+		name: 'T',
+		component: Layout,
+		children: [
+			{
+				path: '/test',
+				meta: {
+					title: '测试'
+				},
+				component: () => Test
+			}
+		]
+	}
+]
+store.commit('setUserRoutes',{userRoutes})
 const routes = [
 	{
 		path: '',
@@ -29,20 +45,7 @@ const routes = [
 		name: 'login',
 		component: Login
 	},
-	{
-		path: '/T',
-		name: 'T',
-		component: Layout,
-		children: [
-			{
-				path: '/test',
-				meta: {
-					title: '测试'
-				},
-				component: () => Test
-			}
-		]
-	}
+	...userRoutes
 ]
 const hasRoute = (route, path) => {
 	const first = route.filter((item) => path.startsWith(item.path))
