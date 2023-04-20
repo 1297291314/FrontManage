@@ -17,7 +17,7 @@ const $utils = inject('$utils')
 const router = useRouter()
 const route = useRoute()
 
-const state = reactive({ tableList: [] })
+const tableList = ref(null)
 defineComponent({
 	CheckCircleOutlined,
 	SyncOutlined,
@@ -28,7 +28,7 @@ defineComponent({
 })
 const dataFetch = () => {
 	api.getClientList().then((res) => {
-		state.tableList = res
+		tableList.value = res
 	})
 }
 const serverDetail = (scoped) => {
@@ -37,7 +37,7 @@ const serverDetail = (scoped) => {
 	// appContext.config.globalProperties.$uilt.storageSession.set('IP', scoped)
 
 	$utils.storageSession.set('IP', scoped)
-	router.push({ path: '/test' })
+	router.push({ path: '/log/logFile' })
 }
 
 onBeforeMount(() => {
@@ -80,7 +80,7 @@ onBeforeMount(() => {
 
 <template>
 	<div class="entry-container">
-		<a-list size="small" bordered :data-source="state.tableList">
+		<a-list size="small" bordered :data-source="tableList">
 			<template #renderItem="{ item }">
 				<a-list-item @click="serverDetail(item)" class="server-list">
 					{{ item.name + '--' + item.id }}

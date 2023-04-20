@@ -8,23 +8,44 @@ import Entry from '@/views/entry/index.vue'
 import store from '@/store'
 import storageSession from '@/utils/sessionStorage'
 const Test = import('@/views/test/index.vue')
+
 const userRoutes = [
 	{
 		path: '/T',
 		name: 'T',
 		component: Layout,
+		meta: {
+			title: '测试'
+		},
 		children: [
 			{
-				path: '/test',
+				path: 'test',
 				meta: {
 					title: '测试'
 				},
 				component: () => Test
 			}
 		]
+	},
+	{
+		path: '/log',
+		name: 'log',
+		component: Layout,
+		meta: {
+			title: '日志'
+		},
+		children: [
+			{
+				path: 'logFile',
+				meta: {
+					title: '日志文件'
+				},
+				component: () => import('@/views/log/logFile/index.vue')
+			}
+		]
 	}
 ]
-store.commit('setUserRoutes',{userRoutes})
+store.commit('setUserRoutes', { userRoutes })
 const routes = [
 	{
 		path: '',
