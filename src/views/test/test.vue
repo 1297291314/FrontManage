@@ -32,9 +32,9 @@ export default {
 		// context==>上下文个中详细$attrs含有props中没有定义的参数，
 		// emit触发父组件事件并向父组件传递参数
 		// slot插销
-		console.log(1)
-		console.log('props', props.name)
-		console.log('context', context)
+		// console.log(1)
+		// console.log('props', props.name)
+		// console.log('context', context)
 		// const inject1 = inject("for1")
 		// const changeAgePar = inject("changeAge")
 		const state = reactive({
@@ -53,23 +53,23 @@ export default {
 			aa: 1
 		})
 		onBeforeMount(() => {
-			console.log('I am onBeforeMount')
+			// console.log('I am onBeforeMount')
 			// console.log('inject1', inject1)
-			console.log('str', str.value, arr.value, obj.value.aa)
+			// console.log('str', str.value, arr.value, obj.value.aa)
 		})
 		onMounted(() => {
-			console.log('I am onMounted')
-			console.log('str', str.value, arr.value, obj.value.aa)
+			// console.log('I am onMounted')
+			// console.log('str', str.value, arr.value, obj.value.aa)
 		})
 		onBeforeUpdate(() => {
-			console.log('I am onBeforeUpdate')
+			// console.log('I am onBeforeUpdate')
 		})
 		onUpdated(() => {
-			console.log('I am onUpdated')
+			// console.log('I am onUpdated')
 		})
 		const methods = {
 			testClick (par) {
-				console.log(par)
+				// console.log(par)
 				if (par > 0) {
 					state.age += 1
 				} else {

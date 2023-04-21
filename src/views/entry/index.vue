@@ -37,7 +37,8 @@ const serverDetail = (scoped) => {
 	// appContext.config.globalProperties.$uilt.storageSession.set('IP', scoped)
 
 	$utils.storageSession.set('IP', scoped)
-	router.push({ path: '/log/logFile' })
+	// router.push({ path: '/log/logFile' })
+	router.push({ path: '/T/test' })
 }
 
 onBeforeMount(() => {

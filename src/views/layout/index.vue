@@ -3,13 +3,13 @@
 		<a-layout-sider v-model:collapsed="collapsed" collapsible>
 			<div :class="collapsed ? 'force-logo-collapsed' : 'force-logo'"></div>
 			<a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-				<a-sub-menu :key="item.path" v-for="item in userRoutes">
+				<a-sub-menu class="force-sub-menu" :key="item.path" v-for="item in userRoutes">
 					<template #title>
 						<span>
 							<span>{{ item.meta.title }}</span>
 						</span>
 					</template>
-					<a-menu-item
+					<a-menu-item class="force-sub-item"
 						@click="routeAction(`${item.path}/${itemchildren.path}`)"
 						v-for="itemchildren in item.children"
 						:key="itemchildren.path"
@@ -51,24 +51,27 @@
 				</a-menu-item> -->
 			</a-menu>
 		</a-layout-sider>
-		<a-layout>
+		<a-layout class='font-layout'>
 			<!-- <a-layout-header style="background: #fff; padding: 0" /> -->
 			<a-layout-content style="margin: 16px">
 				<!-- <a-breadcrumb style="margin: 16px 0">
 					<a-breadcrumb-item>User</a-breadcrumb-item>
 					<a-breadcrumb-item>Bill</a-breadcrumb-item>
 				</a-breadcrumb> -->
-				<div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
-					<router-view v-slot="{ Component }">
+				<div class="font-layout-router">
+					<transition name="fade" mode="out-in">
+						<router-view />
+					</transition>
+					<!-- <router-view v-slot="{ Component }">
 						<transition name="fade" mode="out-in">
 							<component :is="Component" :key="$route.path" />
 						</transition>
-					</router-view>
+					</router-view> -->
 				</div>
 			</a-layout-content>
-			<a-layout-footer style="text-align: center">
+			<!-- <a-layout-footer style="text-align: center">
 				copyright © 2023. All Rights Reserved. Created by <strong>The Force Team</strong>
-			</a-layout-footer>
+			</a-layout-footer> -->
 		</a-layout>
 	</a-layout>
 </template>
@@ -131,5 +134,22 @@ const routeAction = (path) => {
 .fade-enter-from,
 .fade-leave-to {
 	opacity: 0;
+}
+.force-sub-menu {
+    padding: 0 6px;
+	.force-sub-item{
+		border-radius: 4px;
+	}
+}
+.font-layout{
+	height: 100vh;
+    overflow: hidden;
+	&-router{
+		padding: 24px;
+		background: #fff; 
+		min-height: 360px;
+		overflow-y: auto;
+		max-height: calc(100vh - 48px);
+	}
 }
 </style>
