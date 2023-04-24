@@ -59,9 +59,18 @@
 					<a-breadcrumb-item>Bill</a-breadcrumb-item>
 				</a-breadcrumb> -->
 				<div class="font-layout-router">
-					<transition name="fade" mode="out-in">
-						<router-view />
-					</transition>
+					<router-view />
+
+					<!-- <transition name="fade" mode="out-in">
+							<router-view />
+					</transition> -->
+
+					<!-- <router-view v-slot="{ Component }">
+						<transition>
+							<component :is="Component" />
+						</transition>
+					</router-view> -->
+
 					<!-- <router-view v-slot="{ Component }">
 						<transition name="fade" mode="out-in">
 							<component :is="Component" :key="$route.path" />
@@ -146,7 +155,7 @@ const routeAction = (path) => {
     overflow: hidden;
 	&-router{
 		padding: 24px;
-		background: #fff; 
+		background: #fff;
 		min-height: 360px;
 		overflow-y: auto;
 		max-height: calc(100vh - 48px);

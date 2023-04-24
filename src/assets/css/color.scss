@@ -1,0 +1,47 @@
+// 这里是颜色配置
+
+// 主题颜色
+$g-theme: #2f54eb;
+$g-theme--dark: #001529;
+
+// 系统头部背景颜色
+$g-header-bg--dark: $g-theme--dark;
+$g-header-bg--light: #fff;
+
+// 滚动条颜色
+$g-scrollbar-bg--dark: rgba($g-theme, 0.76);
+$g-scrollbar-bg-light: rgba($g-theme--dark, 0.76);
+
+// 错误文字颜色
+$g-wordage-error: #ff4d4f;
+
+// 高亮文字颜色
+$g-wordage-highlight: $g-theme;
+
+// 成功性文字颜色
+$g-wordage-success: #0a0;
+
+// 警告性文字颜色
+$g-wordage-warning: #fcad14;
+
+// 解释性文字颜色
+$g-wordage-description: #7a8396;
+$g-wordage-description-bg: #e5e7ea;
+
+// 提示性文字颜色
+$g-wordage-prompt: #bac0cc;
+
+// 分割线颜色
+$g-divider: #e8e8e8;
+
+// 按钮颜色
+$g-button-primary: $g-theme;
+
+// 链接颜色
+$g-button-link: $g-theme;
+
+// 列表悬浮颜色
+$g-list--hover: #f0f5ff;
+
+// 列表选中颜色
+$g-list--selected: #d6e4ff;

@@ -1,0 +1,162 @@
+@import 'color.scss';
+@import 'override.scss';
+
+// 这里是公共样式
+
+body {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    color: #000;
+}
+
+.no-select {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.force {
+    // 分割线
+    &-divider {
+        // 平行
+        &--horizontal {
+            display: inline-block;
+            vertical-align: middle;
+            background-color: $g-divider;
+            width: 100%;
+            height: 1px;
+            margin: 16px 0;
+        }
+        // 垂直
+        &--vertical {
+            display: inline-block;
+            vertical-align: middle;
+            background-color: $g-divider;
+            width: 1px;
+            height: 1em;
+            margin: 0 16px;
+        }
+    }
+
+    // 表格
+    &-table {
+        margin: 24px;
+        padding: 24px;
+        background-color: #fff;
+
+        &__form {
+            min-width: 240px;
+        }
+        &__form_special {
+            min-width: 205px;
+        }
+        &__button {
+            transition: transform 0.3s ease-in-out;
+            will-change: transform;
+
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
+
+        &__label {
+            width: 100%;
+            display: inline-block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        &__filter {
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .filter-button {
+                white-space: nowrap;
+            }
+        }
+
+        &__total {
+            margin-top: -6px;
+            padding-bottom: 12px;
+
+            span {
+                color: $g-theme;
+            }
+            .ant-alert-message{
+                color: #222;
+            }
+        }
+
+        &__table {
+            min-height: calc(100% - 40px - 25px - 32px);
+        }
+
+        &__pagination {
+            margin-top: 16px;
+            text-align: right;
+        }
+    }
+
+    // 解释
+    &-description {
+        color: $g-wordage-description;
+    }
+
+    // 提示
+    &-prompt {
+        color: $g-wordage-prompt;
+    }
+
+    // 分组
+    &-fieldset {
+        margin-inline-start: 2px;
+        margin-inline-end: 2px;
+        padding-block-start: 0.35em;
+        padding-inline-start: 0.75em;
+        padding-inline-end: 0.75em;
+        padding-block-end: 0.625em;
+        min-inline-size: min-content;
+        border-width: 2px;
+        border-style: groove;
+        border-color: threedface;
+        border-image: initial;
+    }
+
+    // 表单
+    &-form {
+        &__divider {
+            position: relative;
+
+            .divider-title {
+                display: inline-block;
+                padding-right: 12px;
+                color: rgba(0, 0, 0, 0.85);
+                background-color: #fff;
+                font-size: 16px;
+                font-weight: 500;
+                font-weight: bold;
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .divider-function {
+                cursor: pointer;
+                display: inline-block;
+                padding-left: 12px;
+                color: rgba(0, 0, 0, 0.85);
+                background-color: #fff;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+}

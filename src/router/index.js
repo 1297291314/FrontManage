@@ -36,11 +36,18 @@ const userRoutes = [
 		},
 		children: [
 			{
-				path: 'logFile',
+				path: 'logFileNormal',
 				meta: {
-					title: '日志文件'
+					title: '普通日志'
 				},
-				component: () => import('@/views/log/logFile/index.vue')
+				component: () => import('@/views/log/logFileNormal/index.vue')
+			},
+			{
+				path: 'logFileError',
+				meta: {
+					title: '错误日志'
+				},
+				component: () => import('@/views/log/logFileError/index.vue')
 			}
 		]
 	}

@@ -1,0 +1,86 @@
+@import './color.scss';
+
+// 这里是UI库的覆写样式
+
+// 布局容器
+.ant-layout {
+    transition: all 0.2s;
+}
+
+// checkbox组，单项
+.ant-checkbox-group-item {
+    display: block;
+}
+
+// 表单
+.ant-form-item {
+    margin-bottom: 0;
+}
+
+.ant-btn + .ant-btn {
+    margin-left: 8px;
+}
+
+// 表格
+.bgcRed .ant-table-body{
+    background: #fff;
+}
+
+.bgcRed{
+    background: #ac0b5b;
+    background-image: linear-gradient(135deg,#fff,#ac0b5b);
+    ::v-deep .ant-table-body{
+        background: #fff;
+    }
+}
+.search-tip-node{
+    .ant-alert-icon{
+        position: absolute;
+        top: 8.5px;
+        left: 12px;
+    }
+}
+.search-tip-node.search-tip-node-fof{
+    border: 1px solid #fac858;
+    background-color: rgba(250, 200, 88 , 0.1);
+    .ant-alert-icon{
+        color: #fac858;
+    }
+
+}
+.ant-table td,
+.ant-table th {
+    white-space: nowrap;
+}
+
+// 下拉选择框
+.ant-select-dropdown-menu-item {
+    white-space: normal;
+}
+//表格样式
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td {
+    line-height: 40px;
+    padding: 0 4px;
+    overflow-wrap: break-word;
+}
+:root .ant-dropdown-trigger > .anticon.anticon-down, :root .ant-dropdown-link > .anticon.anticon-down{
+    font-size: 16px;
+    font-weight: bolder;
+    color: red;
+}
+.ant-checkbox-inner{
+    border: 1px solid #2f54eb;
+}
+// editor编辑器
+.w-e-text-container .w-e-text-placeholder{
+    top:-1px;
+}
+.w-e-text-container .w-e-scroll p {
+     margin: 4px 0 !important;
+}
+
+.ant-menu-sub.ant-menu-inline > .ant-menu-item, .ant-menu-sub.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title{
+	height: 32px !important;
+	line-height: 32px !important;
+}

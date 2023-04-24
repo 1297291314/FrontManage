@@ -58,6 +58,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~@/assets/css/index.scss';
 #app {
 	width: 100%;
 	position: relative;
