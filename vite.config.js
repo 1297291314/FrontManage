@@ -27,6 +27,7 @@ export default defineConfig({
 		proxy: {
 			'/api': {
 				target: 'http://10.189.66.90:8001', // 凡是遇到 /api 路径的请求，都映射到 target 属性
+				// target: 'http://10.189.66.90:8201', // 测试测试10.189.66.90:8201
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/api/, '') // 重写 api 为 空，就是去掉它
 			}

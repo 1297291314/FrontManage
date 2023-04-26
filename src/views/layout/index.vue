@@ -2,7 +2,8 @@
 	<a-layout style="min-height: 100vh">
 		<a-layout-sider v-model:collapsed="collapsed" collapsible>
 			<div :class="collapsed ? 'force-logo-collapsed' : 'force-logo'"></div>
-			<a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
+			<!-- {{ selectedKeys }} -->
+			<a-menu v-model="selectedKeys" theme="dark" mode="inline">
 				<a-sub-menu class="force-sub-menu" :key="item.path" v-for="item in userRoutes">
 					<template #title>
 						<span>
@@ -51,7 +52,14 @@
 				</a-menu-item> -->
 			</a-menu>
 		</a-layout-sider>
-		<a-layout class='font-layout'>
+
+		 <a-layout class='font-layout'>
+			<!-- <a-page-header
+			style="background-color: #fff; "
+			title="Title"
+			:breadcrumb="{ routes }"
+			sub-title="This is a subtitle"
+  		/> -->
 			<!-- <a-layout-header style="background: #fff; padding: 0" /> -->
 			<a-layout-content style="margin: 16px">
 				<!-- <a-breadcrumb style="margin: 16px 0">
@@ -108,6 +116,20 @@ const collapsed = ref(false)
 const selectedKeys = ref(['1'])
 const userRoutes = computed(() => store.state.userRoutes)
 const router = useRouter()
+// const routes = ref([
+//   {
+//     path: 'index',
+//     breadcrumbName: 'First-level Menu',
+//   },
+//   {
+//     path: 'first',
+//     breadcrumbName: 'Second-level Menu',
+//   },
+//   {
+//     path: 'second',
+//     breadcrumbName: 'Third-level Menu',
+//   },
+// ])
 const routeAction = (path) => {
 	router.push(path)
 }

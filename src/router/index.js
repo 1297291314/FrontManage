@@ -11,6 +11,47 @@ const Test = import('@/views/test/index.vue')
 
 const userRoutes = [
 	{
+		path: '/onStage',
+		name: 'onStage',
+		component: Layout,
+		meta: {
+			title: '上场'
+		},
+		children: [
+			{
+				path: 'fontOnStage',
+				meta: {
+					title: '盘前上场'
+				},
+				component: () => import('@/views/onStage/fontOnStage/index.vue')
+			}
+		]
+	},
+	{
+		path: '/server',
+		name: 'server',
+		component: Layout,
+		meta: {
+			title: '客户端'
+		},
+		children: [
+			{
+				path: 'dataSourceInfo',
+				meta: {
+					title: '数据库连接池信息'
+				},
+				component: () => import('@/views/serverInfo/dataSourceInfo/index.vue')
+			},
+			{
+				path: 'jvmInfo',
+				meta: {
+					title: 'JVM信息'
+				},
+				component: () => import('@/views/serverInfo/jvmInfo/index.vue')
+			}
+		]
+	},
+	{
 		path: '/T',
 		name: 'T',
 		component: Layout,

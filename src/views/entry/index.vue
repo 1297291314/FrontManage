@@ -47,7 +47,7 @@ const serverDetail = (scoped) => {
 	}
 	$utils.storageSession.set('IP', scoped)
 	// router.push({ path: '/log/logFile' })
-	router.push({ path: '/T/test' })
+	router.push({ path: '/onStage/fontOnStage' })
 }
 const restartServer = (scoped) => {
 	api.restart({...scoped})
@@ -73,6 +73,12 @@ const callClient = () => {
 	api.callClient()
 		.then(res => {
 			message.success('访问成功')
+		})
+}
+const test = () => {
+	api.afternoon()
+		.then(res => {
+			console.log(res)
 		})
 }
 onBeforeMount(() => {
@@ -115,10 +121,11 @@ onBeforeMount(() => {
 
 <template>
 	<div class="entry-container">
+		<button @click="test">测试</button>
 		<a-list size="small" bordered :data-source="tableList">
 			<template #renderItem="{ item }">
 				<a-list-item :key="item.id" class="server-list">
-					<div style="display:inline-block;max-width: 70%;"  @click="serverDetail(item)">
+					<div style="display:inline-block;max-width: 70%;cursor:pointer;"  @click="serverDetail(item)">
 						{{ item.name + '--' + item.id }}
 						<a-tag v-if="item.status === 1" color="success">
 							<template #icon> <check-circle-outlined /> </template>已连接
@@ -131,11 +138,12 @@ onBeforeMount(() => {
 						</a-tag>
 					</div>
 					<div class="server-button-con">
-						<a-button size="small" @click="closeServer(item)" shape="round" class="close-button" type="primary">
+						<a-button size="small" @click="closeServer(item)" shape="round" class="close-button" type="link">
 							<template #icon><close-circle-outlined /></template>
 							关闭
 						</a-button>
-						<a-button size="small" @click="restartServer(item)" shape="round"  type="primary">
+						<span class="force-divider--vertical" />
+						<a-button size="small" @click="restartServer(item)" shape="round"  type="link">
 							<template #icon><redo-outlined /></template>
 							重启
 						</a-button>
@@ -146,7 +154,7 @@ onBeforeMount(() => {
 				<div style="position: relative;">Server
 					<a-tooltip>
     					<template #title>访问未注册客户端</template>
-						<a-button size="small" @click="callClient" shape="round" class="restart-button" type="primary">
+						<a-button size="small" @click="callClient" shape="round" class="restart-button" type="link">
 							<template #icon><send-outlined /></template>
 							访问
 						</a-button>
@@ -166,8 +174,8 @@ onBeforeMount(() => {
 	margin: 0 auto;
 
 	.server-list {
-		cursor: pointer;
 		position: relative;
+		color: #1890ff;
 
 		.server-button-con{
 			position: absolute;
