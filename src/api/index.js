@@ -8,6 +8,9 @@ const getJVMInfo = (param) => axios.post(`getJVMInfo`, param)
 const serviceShutdown = (param) => axios.post(`serviceShutdown`, param)
 
 const restart = (param) => axios.post(`restart`, param)
+const serviceRemove = (param) => axios.post(`serviceRemove`, param)
+// 代理请求
+const proxyReq = (param) => axios.post(`proxyReq`, param)
 
 // 测试10.189.66.90:8201
 const calc = (param) => axios.post(`calc`, param)
@@ -21,7 +24,8 @@ export default {
 	getJVMInfo, //查询jvm信息
 	serviceShutdown, //关闭服务
 	restart, // 重启服务
-
+	serviceRemove, // 移除服务
+	proxyReq, // 代理请求
 	// 测试其他端口用的
 	calc,
 	afternoon

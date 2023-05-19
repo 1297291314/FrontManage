@@ -63,7 +63,7 @@ onMounted(() => {
 					><span>{{ tableList.nonheapfree }}</span></a-descriptions-item
 				>
 			</a-descriptions>
-			<a-divider style="margin-bottom: 12px;margin-top:0;" />
+			<!-- <a-divider style="margin-bottom: 12px;margin-top:0;" />
 			<a-descriptions class="description" title="已使用总内存（MB）">
 
 				<a-descriptions-item label="已使用总内存"
@@ -78,7 +78,7 @@ onMounted(() => {
 				<a-descriptions-item label="当前可用总内存"
 					><span>{{ tableList.free }}</span></a-descriptions-item
 				>
-			</a-descriptions>
+			</a-descriptions> -->
 			<a-divider style="margin-bottom: 12px;margin-top:0;" />
 			<a-descriptions class="description" title="当前线程">
 

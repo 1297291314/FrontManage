@@ -11,7 +11,8 @@ import {
 	ClockCircleOutlined,
 	MinusCircleOutlined,
 	RedoOutlined,
-	SendOutlined
+	SendOutlined,
+	DeleteOutlined
 } from '@ant-design/icons-vue'
 
 // import { mapGetters, mapMutations } from 'vuex'
@@ -29,7 +30,8 @@ defineComponent({
 	ClockCircleOutlined,
 	MinusCircleOutlined,
 	RedoOutlined,
-	SendOutlined
+	SendOutlined,
+	DeleteOutlined
 })
 const dataFetch = () => {
 	api.getClientList().then((res) => {
@@ -53,6 +55,16 @@ const restartServer = (scoped) => {
 	api.restart({...scoped})
 		.then((res) => {
 			message.success(res + '，请稍等片刻')
+			dataFetch()
+			setTimeout(() => {
+				dataFetch()
+			}, 10000)
+		})
+}
+const removeServer = (scoped) => {
+	api.serviceRemove({ ...scoped })
+		.then((res) => {
+			message.success(res)
 			dataFetch()
 			setTimeout(() => {
 				dataFetch()
@@ -121,7 +133,6 @@ onBeforeMount(() => {
 
 <template>
 	<div class="entry-container">
-		<button @click="test">测试</button>
 		<a-list size="small" bordered :data-source="tableList">
 			<template #renderItem="{ item }">
 				<a-list-item :key="item.id" class="server-list">
@@ -146,6 +157,11 @@ onBeforeMount(() => {
 						<a-button size="small" @click="restartServer(item)" shape="round"  type="link">
 							<template #icon><redo-outlined /></template>
 							重启
+						</a-button>
+						<span class="force-divider--vertical" />
+						<a-button size="small" @click="removeServer(item)" shape="round"  type="link">
+							<template #icon><delete-outlined /></template>
+							移除
 						</a-button>
 					</div>
 				</a-list-item>

@@ -10,7 +10,7 @@ console.log($utils)
 const logMessage = $utils.storageSession.get('IP').logFileTwo
 onMounted(() => {
 	if (logMessage.trim() === '') {
-		logStr.value = '连路径都没得'
+		logStr.value = '暂无错误日志'
 		return
 	}
 	logStr.value = ''

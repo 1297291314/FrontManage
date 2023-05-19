@@ -51,23 +51,23 @@ const userRoutes = [
 			}
 		]
 	},
-	{
-		path: '/T',
-		name: 'T',
-		component: Layout,
-		meta: {
-			title: '测试'
-		},
-		children: [
-			{
-				path: 'test',
-				meta: {
-					title: '测试'
-				},
-				component: () => Test
-			}
-		]
-	},
+	// {
+	// 	path: '/T',
+	// 	name: 'T',
+	// 	component: Layout,
+	// 	meta: {
+	// 		title: '测试'
+	// 	},
+	// 	children: [
+	// 		{
+	// 			path: 'test',
+	// 			meta: {
+	// 				title: '测试'
+	// 			},
+	// 			component: () => Test
+	// 		}
+	// 	]
+	// },
 	{
 		path: '/log',
 		name: 'log',
@@ -128,8 +128,8 @@ const hasRoute = (route, path) => {
 }
 
 const router = createRouter({
-	//   history: createWebHashHistory(), // hash 模式
-	history: createWebHistory(),
+	history: createWebHashHistory(), // hash 模式
+	// history: createWebHistory(),
 	routes,
 	scrollBehavior() {
 		return {

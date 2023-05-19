@@ -1,9 +1,9 @@
 <template>
 	<a-layout style="min-height: 100vh">
-		<a-layout-sider v-model:collapsed="collapsed" collapsible>
+		<a-layout-sider v-model:collapsed="collapsed" >
 			<div :class="collapsed ? 'force-logo-collapsed' : 'force-logo'"></div>
 			<!-- {{ selectedKeys }} -->
-			<a-menu v-model="selectedKeys" theme="dark" mode="inline">
+			<a-menu :default-selected-keys="[userRoutes[0].children[0].path  ]" :default-open-keys="[userRoutes[0].path]" v-model="selectedKeys" theme="dark" mode="inline">
 				<a-sub-menu class="force-sub-menu" :key="item.path" v-for="item in userRoutes">
 					<template #title>
 						<span>
