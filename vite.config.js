@@ -6,6 +6,7 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
 	publicPath: './',
+	base: './',
 	productionSourceMap: false, // 不生成map
 	resolve: {
 		alias: {
