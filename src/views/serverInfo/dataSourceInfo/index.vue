@@ -6,26 +6,27 @@ const $utils = inject('$utils')
 const IP = $utils.storageSession.get('IP')
 const tableList = ref([
 	{
-		url: 'dkfjkjkjfjff',
-		username: 'hujjj',
-		database: null,
-		poolName: '连接池1',
+		// url: 'dkfjkjkjfjff',
+		// username: 'hujjj',
+		// database: null,
+		// poolName: '连接池1',
 
-		active: 2,
-		idle: 1,
-		total: 3,
-		awaiting: 1,
+		// active: 2,
+		// idle: 1,
+		// total: 3,
+		// awaiting: 1,
 
-		connectionTimeoutMs: 3000,
-		validationTimeoutMs: 3000,
-		idleTimeoutMs: 5000,
-		maxLifetimeMs: 4000,
-		minIdle: 4,
-		maxPoolSize: 10
+		// connectionTimeoutMs: 3000,
+		// validationTimeoutMs: 3000,
+		// idleTimeoutMs: 5000,
+		// maxLifetimeMs: 4000,
+		// minIdle: 4,
+		// maxPoolSize: 10
 	}
 ])
 const dataFetch = () => {
 	api.getDataSourceInfo({ ...IP }).then((res) => {
+		console.log(res)
 		tableList.value = [...res]
 	})
 }
@@ -35,7 +36,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<a-card :bordered="false">
+	<a-card v-show="tableList.length>0" :bordered="false">
 		<template v-for="(item, index) in tableList" :key="item.url">
 			<a-descriptions class="description" :title="`连接池${index + 1}`">
 				<a-descriptions-item label="连接池URL"

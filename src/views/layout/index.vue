@@ -3,7 +3,11 @@
 		<a-layout-sider v-model:collapsed="collapsed" >
 			<div :class="collapsed ? 'force-logo-collapsed' : 'force-logo'"></div>
 			<!-- {{ selectedKeys }} -->
-			<a-menu :default-selected-keys="[userRoutes[0].children[0].path  ]" :default-open-keys="[userRoutes[0].path]" v-model="selectedKeys" theme="dark" mode="inline">
+
+			<a-menu
+				v-model:openKeys="openKeys"
+   				v-model:selectedKeys="selectedKeys"
+				theme="dark" mode="inline">
 				<a-sub-menu class="force-sub-menu" :key="item.path" v-for="item in userRoutes">
 					<template #title>
 						<span>
@@ -54,12 +58,20 @@
 		</a-layout-sider>
 
 		 <a-layout class='font-layout'>
-			<!-- <a-page-header
+			<a-page-header
 			style="background-color: #fff; "
-			title="Title"
-			:breadcrumb="{ routes }"
-			sub-title="This is a subtitle"
-  		/> -->
+			:title="route.meta.title"
+  			>
+				<template #extra>
+					<a-tooltip >
+						 <template #title>返回首页</template>
+						<a-button @click="backServe" type="primary" shape="circle">
+							<template #icon><logout-outlined /></template>
+						</a-button>
+					</a-tooltip>
+				</template>
+			</a-page-header>
+		<!-- sub-title="This is a subtitle" -->
 			<!-- <a-layout-header style="background: #fff; padding: 0" /> -->
 			<a-layout-content style="margin: 16px">
 				<!-- <a-breadcrumb style="margin: 16px 0">
@@ -98,24 +110,28 @@ import {
 	DesktopOutlined,
 	UserOutlined,
 	TeamOutlined,
-	FileOutlined
+	FileOutlined,
+	LogoutOutlined
 } from '@ant-design/icons-vue'
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed,onBeforeMount} from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRouter,useRoute } from 'vue-router'
 defineComponent({
 	PieChartOutlined,
 	DesktopOutlined,
 	UserOutlined,
 	TeamOutlined,
-	FileOutlined
+	FileOutlined,
+	LogoutOutlined
 })
 
 const store = useStore()
 const collapsed = ref(false)
-const selectedKeys = ref(['1'])
+const selectedKeys = ref(['fontOnStage'])
+const openKeys = ref(['/onStage'])
 const userRoutes = computed(() => store.state.userRoutes)
 const router = useRouter()
+const route = useRoute()
 // const routes = ref([
 //   {
 //     path: 'index',
@@ -130,8 +146,16 @@ const router = useRouter()
 //     breadcrumbName: 'Third-level Menu',
 //   },
 // ])
+onBeforeMount(() => {
+	// console.log(route.fullPath,route.path)
+	selectedKeys.value = [route.path.split('/')[2]]
+	openKeys.value = ['/'+route.path.split('/')[1]]
+})
 const routeAction = (path) => {
 	router.push(path)
+}
+const backServe = (path) => {
+	router.push({ path: '/entry' })
 }
 </script>
 <style lang="scss">
