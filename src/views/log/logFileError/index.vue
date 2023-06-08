@@ -1,13 +1,35 @@
+
+
 <script setup>
 import {ref,inject,onMounted,onUnmounted } from 'vue'
 
 const $utils = inject('$utils')
 const logSocket = ref(null)
-
+const pageSizeOptions = ref(['100', '200','500','1000'])
 const logStr = ref('')
-console.log($utils)
+const logArr = ref([])
 
-const logMessage = $utils.storageSession.get('IP').logFileTwo
+const logInfo = ref({
+	page: 1,
+	limit: 100,
+	total: 0,
+	showLogArr: []
+})
+
+const logMessage = $utils.storageSession.get('IP').logFileTwo || '暂无日志'
+
+const dataShow = () => {
+	logInfo.value.showLogArr = [...logArr.value.slice((logInfo.value.page - 1) * logInfo.value.limit, (logInfo.value.page) * logInfo.value.limit)]
+}
+const pageChange = (page) => {
+	logInfo.value.page = page
+	dataShow()
+}
+const pageSizeChange = (current, pageSize) => {
+	console.log(pageSize)
+	logInfo.value.limit = pageSize
+	dataShow()
+}
 onMounted(() => {
 	if (logMessage.trim() === '') {
 		logStr.value = '暂无错误日志'
@@ -20,12 +42,12 @@ onMounted(() => {
 	})
 	logSocket.value.onMessage((res) => {
 		logStr.value += res.data
+		logArr.value = logStr.value.split('<br/>')
+		logInfo.value.total = logArr.value.length
+		dataShow()
 	})
 })
 onUnmounted(() => {
-	if (logMessage.trim() === '') {
-		return
-	}
 	logSocket.value.handleClose()
 	// console.log('un')
 	logSocket.value = null
@@ -35,9 +57,29 @@ onUnmounted(() => {
 
 <template>
 	<div class="log-container">
-		<h3 class="log-header">{{ logMessage }}</h3>
+		<h3 class="log-header">日志地址：{{ logMessage }}</h3>
 		<div class="log-info" :style="{'overflow-y':'auto'}">
-			<p v-html="logStr"/>
+			<!-- <p v-html="logStr"/> -->
+			<p v-for="item in logInfo.showLogArr" :key="item">{{ item }}</p>
+
+		</div>
+		<div class="log-footer">
+			<!-- <a-pagination
+			v-model:current="logInfo.page" show-quick-jumper :total="logInfo.total" @change="onChange" /> -->
+			<a-pagination
+                show-size-changer
+                :total="logInfo.total"
+                v-model:current="logInfo.page"
+                 v-model:page-size="logInfo.limit"
+                :page-size-options="pageSizeOptions"
+
+                @change="pageChange"
+				@showSizeChange="pageSizeChange"
+            >
+                <template #buildOptionText="props">
+                    <span>{{ props.value }}条/页</span>
+                </template>
+            </a-pagination>
 		</div>
 	</div>
 
@@ -53,7 +95,13 @@ onUnmounted(() => {
 		}
 		.log-info{
 			flex: 1;
+			max-height: calc(100vh - 250px);
 			overflow-y:auto;
+
+		}
+		.log-footer{
+			padding:15px 0;
+			flex: 0 0 auto;
 		}
 	}
 

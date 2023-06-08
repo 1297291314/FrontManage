@@ -3,11 +3,31 @@ import {ref,inject,onMounted,onUnmounted } from 'vue'
 
 const $utils = inject('$utils')
 const logSocket = ref(null)
-
+const pageSizeOptions = ref(['100', '200','500','1000'])
 const logStr = ref('')
-console.log($utils)
+const logArr = ref([])
+
+const logInfo = ref({
+	page: 1,
+	limit: 100,
+	total: 0,
+	showLogArr: []
+})
 
 const logMessage = $utils.storageSession.get('IP').logFileOne
+
+const dataShow = () => {
+	logInfo.value.showLogArr = [...logArr.value.slice((logInfo.value.page - 1) * logInfo.value.limit, (logInfo.value.page) * logInfo.value.limit)]
+}
+const pageChange = (page) => {
+	logInfo.value.page = page
+	dataShow()
+}
+const pageSizeChange = (current, pageSize) => {
+	console.log(pageSize)
+	logInfo.value.limit = pageSize
+	dataShow()
+}
 onMounted(() => {
 	if (logMessage.trim() === '') {
 		return
@@ -19,6 +39,9 @@ onMounted(() => {
 	})
 	logSocket.value.onMessage((res) => {
 		logStr.value += res.data
+		logArr.value = logStr.value.split('<br/>')
+		logInfo.value.total = logArr.value.length
+		dataShow()
 	})
 })
 onUnmounted(() => {
@@ -31,16 +54,29 @@ onUnmounted(() => {
 
 <template>
 	<div class="log-container">
-		<div class="goback">
-    <div class="box">
-        <div class="top" @click="goTop">{{topName}}</div>
-        <div class="midlle"></div>
-        <div class="bottom" @click="goBottom">{{bottomName}}</div>
-    </div>
-  </div>
-		<h3 class="log-header">{{ logMessage }}</h3>
+		<h3 class="log-header">日志地址：{{ logMessage }}</h3>
 		<div class="log-info" :style="{'overflow-y':'auto'}">
-			<p v-html="logStr"/>
+			<!-- <p v-html="logStr"/> -->
+			<p v-for="item in logInfo.showLogArr" :key="item">{{ item }}</p>
+
+		</div>
+		<div class="log-footer">
+			<!-- <a-pagination
+			v-model:current="logInfo.page" show-quick-jumper :total="logInfo.total" @change="onChange" /> -->
+			<a-pagination
+                show-size-changer
+                :total="logInfo.total"
+                v-model:current="logInfo.page"
+                 v-model:page-size="logInfo.limit"
+                :page-size-options="pageSizeOptions"
+
+                @change="pageChange"
+				@showSizeChange="pageSizeChange"
+            >
+                <template #buildOptionText="props">
+                    <span>{{ props.value }}条/页</span>
+                </template>
+            </a-pagination>
 		</div>
 	</div>
 
@@ -56,42 +92,14 @@ onUnmounted(() => {
 		}
 		.log-info{
 			flex: 1;
+			max-height: calc(100vh - 250px);
 			overflow-y:auto;
+
 		}
-
-.goback{
-    position: fixed;
-    bottom: 200px;
-    right: 100px;
-    .box{
-        width: 60px;
-        height: 120px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, .1);
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        border-radius: 8px;
-        > div{
-            font-size: 16px;
-            width: 100%;
-        }
-        .top,.bottom{
-            cursor: pointer;
-            width: 100%;
-            height: 49%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            user-select: none;
-        }
-        .midlle{
-            height: 2%;
-            background-color: rgb(243, 237, 237);
-        }
-    }
-}
-
+		.log-footer{
+			padding:15px 0;
+			flex: 0 0 auto;
+		}
 	}
 
 </style>
