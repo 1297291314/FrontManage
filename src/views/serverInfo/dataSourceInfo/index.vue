@@ -1,6 +1,6 @@
 <script setup>
 import { ref, inject,onMounted } from 'vue'
-import api from '@/api/index'
+import api from '@/api/componentServer'
 
 const $utils = inject('$utils')
 const IP = $utils.storageSession.get('IP')

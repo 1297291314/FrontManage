@@ -1,114 +1,70 @@
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+// import NProgress from 'nprogress'
+// import 'nprogress/nprogress.css'
 import Error from '@/views/error/index.vue'
 import Login from '@/views/login/index.vue'
 import Layout from '@/views/layout/index.vue'
-import Entry from '@/views/entry/index.vue'
+// import Entry from '@/views/entry/index.vue'
 import store from '@/store'
-import storageSession from '@/utils/sessionStorage'
-const Test = import('@/views/test/index.vue')
+// import storageSession from '@/utils/sessionStorage'
 
 const userRoutes = [
 	{
-		path: '/onStage',
-		name: 'onStage',
+		path: '/layout',
+		name: 'layout',
 		component: Layout,
 		meta: {
-			title: '上场'
+			title: 'index'
 		},
 		children: [
 			{
-				path: 'fontOnStage',
+				path: '/beforStage',
 				meta: {
 					title: '盘前上场'
 				},
-				component: () => import('@/views/onStage/fontOnStage/index.vue')
-			}
-		]
-	},
-	{
-		path: '/server',
-		name: 'server',
-		component: Layout,
-		meta: {
-			title: '客户端'
-		},
-		children: [
-			{
-				path: 'dataSourceInfo',
-				meta: {
-					title: '数据库连接池信息'
-				},
-				component: () => import('@/views/serverInfo/dataSourceInfo/index.vue')
+				component: () => import('@/views/beforStage/beforStage/index.vue')
 			},
 			{
-				path: 'jvmInfo',
+				path: '/onStage',
 				meta: {
-					title: 'JVM信息'
+					title: '盘中上场'
 				},
-				component: () => import('@/views/serverInfo/jvmInfo/index.vue')
-			}
-		]
-	},
-	// {
-	// 	path: '/T',
-	// 	name: 'T',
-	// 	component: Layout,
-	// 	meta: {
-	// 		title: '测试'
-	// 	},
-	// 	children: [
-	// 		{
-	// 			path: 'test',
-	// 			meta: {
-	// 				title: '测试'
-	// 			},
-	// 			component: () => Test
-	// 		}
-	// 	]
-	// },
-	{
-		path: '/log',
-		name: 'log',
-		component: Layout,
-		meta: {
-			title: '日志'
-		},
-		children: [
-			{
-				path: 'logFileNormal',
-				meta: {
-					title: '普通日志'
-				},
-				component: () => import('@/views/log/logFileNormal/index.vue')
+				component: () => import('@/views/onStage/onStage/index.vue')
 			},
 			{
-				path: 'logFileError',
+				path: '/businessWeekly',
 				meta: {
-					title: '错误日志'
+					title: '业务周报'
 				},
-				component: () => import('@/views/log/logFileError/index.vue')
+				component: () => import('@/views/businessWeekly/businessWeekly/index.vue')
+			},
+			{
+				path: '/componentServer',
+				meta: {
+					title: '组件'
+				},
+				component: () => import('@/views/componentServer/componentServer/index.vue')
 			}
 		]
 	}
 ]
+
 store.commit('setUserRoutes', { userRoutes })
 const routes = [
 	{
 		path: '',
-		redirect: '/entry'
+		redirect: '/beforStage'
 	},
 	{
 		path: '/error',
 		name: 'error',
 		component: Error
 	},
-	{
-		path: '/entry',
-		name: 'entry',
-		component: Entry
-	},
+	// {
+	// 	path: '/entry',
+	// 	name: 'entry',
+	// 	component: Entry
+	// },
 	{
 		path: '/login',
 		name: 'login',
@@ -138,24 +94,24 @@ const router = createRouter({
 		}
 	}
 })
-router.beforeEach((to, from, next) => {
-	NProgress.start()
-	// 白名单，不需要登陆的路由数组
-	if (to.path === '/entry') {
-		next()
-	} else if (storageSession.get('IP').id) {
-		if (hasRoute(routes, to.path)) {
-			// 有权限
-			next()
-		} else {
-			// 没权限
-			next({ path: '/entry' })
-		}
-	} else {
-		next({ path: '/entry' })
-	}
-})
-router.afterEach(() => {
-	NProgress.done()
-})
+// router.beforeEach((to, from, next) => {
+// 	NProgress.start()
+// 	// 白名单，不需要登陆的路由数组
+// 	if (to.path === '/entry') {
+// 		next()
+// 	} else if (storageSession.get('IP').id) {
+// 		if (hasRoute(routes, to.path)) {
+// 			// 有权限
+// 			next()
+// 		} else {
+// 			// 没权限
+// 			next({ path: '/entry' })
+// 		}
+// 	} else {
+// 		next({ path: '/entry' })
+// 	}
+// })
+// router.afterEach(() => {
+// 	NProgress.done()
+// })
 export default router

@@ -12,9 +12,8 @@ const serviceRemove = (param) => axios.post(`serviceRemove`, param)
 // 代理请求
 const proxyReq = (param) => axios.post(`proxyReq`, param)
 
-// 测试10.189.66.90:8201
-const calc = (param) => axios.post(`calc`, param)
-const afternoon = (param) => axios.post(`afternoon`, param)
+//webSocket
+const wsSessionList = (param) => axios.post(`wsSessionList`, param)
 export default {
 	callClient, // 访问未注册客户端
 
@@ -26,7 +25,5 @@ export default {
 	restart, // 重启服务
 	serviceRemove, // 移除服务
 	proxyReq, // 代理请求
-	// 测试其他端口用的
-	calc,
-	afternoon
+	wsSessionList // 查询当前webSocket连接id
 }

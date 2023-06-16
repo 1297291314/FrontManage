@@ -5,7 +5,7 @@
 	</section>
 </template>
 <script>
-import api from '@/api'
+import api from '@/api/componentServer'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
 	name: 'login',

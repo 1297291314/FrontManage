@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, onBeforeMount, inject, defineComponent } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import api from '@/api/index'
+import api from '@/api/componentServer'
 import {message} from 'ant-design-vue'
 import {
 	CheckCircleOutlined,
@@ -85,12 +85,6 @@ const callClient = () => {
 	api.callClient()
 		.then(res => {
 			message.success('访问成功')
-		})
-}
-const test = () => {
-	api.afternoon()
-		.then(res => {
-			console.log(res)
 		})
 }
 onBeforeMount(() => {

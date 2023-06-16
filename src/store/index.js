@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import api from '@/api/index'
+import api from '@/api/componentServer'
 import VueXAlong from 'vuex-along'
 
 export default new Vuex.Store({

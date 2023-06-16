@@ -2,34 +2,14 @@
 	<a-layout style="min-height: 100vh">
 		<a-layout-sider v-model:collapsed="collapsed" >
 			<div :class="collapsed ? 'force-logo-collapsed' : 'force-logo'"></div>
-			<!-- {{ selectedKeys }} -->
-
 			<a-menu
-				v-model:openKeys="openKeys"
    				v-model:selectedKeys="selectedKeys"
 				theme="dark" mode="inline">
-				<a-sub-menu class="force-sub-menu" :key="item.path" v-for="item in userRoutes">
-					<template #title>
-						<span>
-							<span>{{ item.meta.title }}</span>
-						</span>
-					</template>
-					<a-menu-item class="force-sub-item"
-						@click="routeAction(`${item.path}/${itemchildren.path}`)"
-						v-for="itemchildren in item.children"
-						:key="itemchildren.path"
-						>{{ itemchildren.meta.title }}</a-menu-item
-					>
-				</a-sub-menu>
-				<!-- <a-menu-item key="1">
-					<pie-chart-outlined />
-					<span>Option 1</span>
+				<a-menu-item @click="routeAction(item.path)" class="force-sub-menu" :key="item.path" v-for="item in userRoutes[0].children">
+					<!-- <pie-chart-outlined /> -->
+					<span>{{ item.meta.title }}</span>
 				</a-menu-item>
-				<a-menu-item key="2">
-					<desktop-outlined />
-					<span>Option 2</span>
-				</a-menu-item>
-				<a-sub-menu key="sub1">
+				<!-- <a-sub-menu key="sub1">
 					<template #title>
 						<span>
 							<user-outlined />
@@ -39,21 +19,7 @@
 					<a-menu-item key="3">Tom</a-menu-item>
 					<a-menu-item key="4">Bill</a-menu-item>
 					<a-menu-item key="5">Alex</a-menu-item>
-				</a-sub-menu>
-				<a-sub-menu key="sub2">
-					<template #title>
-						<span>
-							<team-outlined />
-							<span>Team</span>
-						</span>
-					</template>
-					<a-menu-item key="6">Team 1</a-menu-item>
-					<a-menu-item key="8">Team 2</a-menu-item>
-				</a-sub-menu>
-				<a-menu-item key="9">
-					<file-outlined />
-					<span>File</span>
-				</a-menu-item> -->
+				</a-sub-menu> -->
 			</a-menu>
 		</a-layout-sider>
 
@@ -62,14 +28,14 @@
 			style="background-color: #fff; "
 			:title="route.meta.title"
   			>
-				<template #extra>
+				<!-- <template #extra>
 					<a-tooltip >
 						 <template #title>返回首页</template>
 						<a-button @click="backServe" type="primary" shape="circle">
 							<template #icon><logout-outlined /></template>
 						</a-button>
 					</a-tooltip>
-				</template>
+				</template> -->
 			</a-page-header>
 		<!-- sub-title="This is a subtitle" -->
 			<!-- <a-layout-header style="background: #fff; padding: 0" /> -->
@@ -127,8 +93,7 @@ defineComponent({
 
 const store = useStore()
 const collapsed = ref(false)
-const selectedKeys = ref(['fontOnStage'])
-const openKeys = ref(['/onStage'])
+const selectedKeys = ref(['/beforeStage'])
 const userRoutes = computed(() => store.state.userRoutes)
 const router = useRouter()
 const route = useRoute()
@@ -148,15 +113,14 @@ const route = useRoute()
 // ])
 onBeforeMount(() => {
 	// console.log(route.fullPath,route.path)
-	selectedKeys.value = [route.path.split('/')[2]]
-	openKeys.value = ['/'+route.path.split('/')[1]]
+	selectedKeys.value = ['/'+route.path.split('/')[1]]
 })
 const routeAction = (path) => {
 	router.push(path)
 }
-const backServe = (path) => {
-	router.push({ path: '/entry' })
-}
+// const backServe = (path) => {
+// 	router.push({ path: '/entry' })
+// }
 </script>
 <style lang="scss">
 .force-logo {

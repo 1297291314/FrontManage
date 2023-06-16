@@ -1,14 +1,21 @@
 <template>
-	<div id="app">
-		<router-view />
-	</div>
+	<a-config-provider :locale="locale">
+		<div id="app">
+			<router-view />
+		</div>
+	 </a-config-provider>
 </template>
 
 <script>
+import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+dayjs.locale('zh-cn')
 export default {
 	data () {
 		return {
-			socket: ''
+			// socket: ''
+			locale: zhCN
 		}
 	},
 	mounted () {

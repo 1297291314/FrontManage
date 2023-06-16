@@ -3,27 +3,33 @@ import { ref, inject , onMounted} from 'vue'
 import api from '@/api/componentServer'
 
 const $utils = inject('$utils')
-const IP = $utils.storageSession.get('IP')
-const tableList = ref([
-	{
-		"heapused": 594,
-		"heapmax": 27305,
-		"heapcommit": 1958,
-		"heapfree": 1364,
-		"nonheapused": 72,
-		"nonheapmax": 0,
-		"nonheapcommit": 76,
-		"nonheapfree": 4,
-		"used": 594,
-		"max": 27305,
-		"commit": 1958,
-		"free": 1364,
-		"threadsNum": 27
+const props = defineProps({
+	IP: {
+		type: Object,
+		required: true
 	}
-])
+})
+const tableList = ref({}
+	// {
+	// 	"heapused": 594,
+	// 	"heapmax": 27305,
+	// 	"heapcommit": 1958,
+	// 	"heapfree": 1364,
+	// 	"nonheapused": 72,
+	// 	"nonheapmax": 0,
+	// 	"nonheapcommit": 76,
+	// 	"nonheapfree": 4,
+	// 	"used": 594,
+	// 	"max": 27305,
+	// 	"commit": 1958,
+	// 	"free": 1364,
+	// 	"threadsNum": 27
+	// }
+)
 
 const dataFetch = () => {
-	api.getJVMInfo({ ...IP }).then((res) => {
+	api.getJVMInfo({ ...props.IP }).then((res) => {
+		console.log(res)
 		tableList.value = { ...res }
 	})
 }
