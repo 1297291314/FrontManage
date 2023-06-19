@@ -162,13 +162,13 @@ const routeAction = (path) => {
 }
 .font-layout{
 	height: 100vh;
-    overflow: hidden;
+    overflow-y: auto;
 	&-router{
 		padding: 24px;
 		background: #fff;
 		min-height: 360px;
-		overflow-y: auto;
-		max-height: calc(100vh - 48px);
+		// overflow-y: auto;
+		// max-height: calc(100vh - 48px);
 	}
 }
 </style>

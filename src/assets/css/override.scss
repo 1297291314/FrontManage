@@ -61,7 +61,7 @@
 .ant-table-thead > tr > th,
 .ant-table-tbody > tr > td {
     line-height: 40px;
-    padding: 0 4px;
+    padding: 0 4px !important;
     overflow-wrap: break-word;
 }
 :root .ant-dropdown-trigger > .anticon.anticon-down, :root .ant-dropdown-link > .anticon.anticon-down{
