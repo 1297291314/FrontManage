@@ -174,7 +174,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
-	<div>
+	<div class="view-container">
 		<div v-if="showElement === 'index'" class="entry-container">
 			<a-list size="small" bordered :data-source="tableList">
 				<template #renderItem="{ item }">

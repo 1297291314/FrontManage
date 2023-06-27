@@ -18,11 +18,18 @@ const userRoutes = [
 		},
 		children: [
 			{
-				path: '/beforStage',
+				path: '/workbench',
+				meta: {
+					title: '首页'
+				},
+				component: () => import('@/views/workbench/workbench/index.vue')
+			},
+			{
+				path: '/beforeStage',
 				meta: {
 					title: '盘前上场'
 				},
-				component: () => import('@/views/beforStage/beforStage/index.vue')
+				component: () => import('@/views/beforeStage/beforeStage/index.vue')
 			},
 			{
 				path: '/onStage',
@@ -53,13 +60,14 @@ store.commit('setUserRoutes', { userRoutes })
 const routes = [
 	{
 		path: '',
-		redirect: '/beforStage'
+		redirect: '/beforeStage'
 	},
 	{
 		path: '/error',
 		name: 'error',
 		component: Error
 	},
+
 	// {
 	// 	path: '/entry',
 	// 	name: 'entry',

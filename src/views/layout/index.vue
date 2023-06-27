@@ -26,6 +26,7 @@
 		 <a-layout class='font-layout'>
 			<a-page-header
 			style="background-color: #fff; "
+			class="font-layout-header"
 			:title="route.meta.title"
   			>
 				<!-- <template #extra>
@@ -39,7 +40,7 @@
 			</a-page-header>
 		<!-- sub-title="This is a subtitle" -->
 			<!-- <a-layout-header style="background: #fff; padding: 0" /> -->
-			<a-layout-content style="margin: 16px">
+			<a-layout-content>
 				<!-- <a-breadcrumb style="margin: 16px 0">
 					<a-breadcrumb-item>User</a-breadcrumb-item>
 					<a-breadcrumb-item>Bill</a-breadcrumb-item>
@@ -79,7 +80,7 @@ import {
 	FileOutlined,
 	LogoutOutlined
 } from '@ant-design/icons-vue'
-import { defineComponent, ref, computed,onBeforeMount} from 'vue'
+import { defineComponent, ref, computed,onBeforeMount,onBeforeUpdate} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter,useRoute } from 'vue-router'
 defineComponent({
@@ -115,6 +116,9 @@ onBeforeMount(() => {
 	// console.log(route.fullPath,route.path)
 	selectedKeys.value = ['/'+route.path.split('/')[1]]
 })
+ onBeforeUpdate (()=>{
+        selectedKeys.value = ['/'+route.path.split('/')[1]]
+    })
 const routeAction = (path) => {
 	router.push(path)
 }
@@ -164,11 +168,14 @@ const routeAction = (path) => {
 	height: 100vh;
     overflow-y: auto;
 	&-router{
-		padding: 24px;
-		background: #fff;
+		// padding: 24px;
+		// background: #fff;
 		min-height: 360px;
 		// overflow-y: auto;
 		// max-height: calc(100vh - 48px);
+	}
+	&-header{
+		box-shadow: 0 2px 4px rgba(0,21,41,.08);
 	}
 }
 </style>

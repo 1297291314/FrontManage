@@ -17,6 +17,11 @@ body {
     user-select: none;
 }
 
+.view-container{
+	margin: 24px;
+	padding: 24px;
+	background-color: #fff;
+}
 .force {
     // 分割线
     &-divider {
@@ -36,7 +41,7 @@ body {
             background-color: $g-divider;
             width: 1px;
             height: 1em;
-            margin: 0 16px;
+            margin: 0 6px;
         }
     }
 
