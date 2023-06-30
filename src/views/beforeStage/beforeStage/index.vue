@@ -6,7 +6,11 @@ import { message } from 'ant-design-vue'
 
 
 //  数据
-const searchQuery = ref({page:1,limit:9999, tradingDay:moment ().startOf('day').format('YYYYMMDD') })
+const searchQuery = ref({ page: 1, limit: 9999, tradingDay: moment().startOf('day').format('YYYYMMDD') })
+const searchQueryTab = ref({
+	tradingDay: '20230601',//moment().startOf('day').format('YYYYMMDD'),
+	platformType: 'STOCK'
+})
 const activeKey = ref('1')
 const columns1 = ref([{
             title: '准备开始执行时间',
@@ -63,8 +67,8 @@ const tableList1 = ref([{
 	dataFrom: 'TB业务数据库',
 	dataContent:'备份'
 	}])
-const timedTaskLog = ref([])
-const columns2 = ref([{
+// const timedTaskLog = ref([])
+const columns2Stock = ref([{
             title: '业务活动',
             dataIndex: 'busiPar',
 			key: 'busiPar',
@@ -94,7 +98,7 @@ const columns2 = ref([{
 			align: 'center',
             key: 'options',
           }])
-const tableList2 = ref([{
+const tableList2Stock = ref([{
 	busiPar: '业务活动',
 	beginTimePar: ' 没有时间就打钩子',
 	finishTimePar: '',
@@ -138,8 +142,6 @@ const tableList2 = ref([{
 // 方法
 const dataFetch1 = () => {
 	api.timedTaskLog({ ...searchQuery.value }).then((res) => {
-
-
 		tableList1.value.map((itemTable,indexTable) => {
 			let existFlag = false
 			res.map((item) => {
@@ -157,16 +159,16 @@ const dataFetch1 = () => {
 
 	})
 }
-const isWeekend = (value)=> {
-		const date = value.weekday()
-		if (date === 5 || date === 6) {
-			return true
-		}
-		return false
-	}
+const dataFetch2 = () => {
+	api.beforeStageStatus({ ...searchQueryTab.value })
+		.then((res) => {
+			console.log(res)
+		})
+}
 // 周期
 onBeforeMount(() => {
 	dataFetch1()
+	dataFetch2()
 })
 
 
@@ -198,8 +200,8 @@ onBeforeMount(() => {
 					<a-card>
 						<h3 class="sub_title">2.1.执行过程</h3>
 						<a-table
-							:columns="columns2"
-							:dataSource="tableList2"
+							:columns="columns2Stock"
+							:dataSource="tableList2Stock"
 							:pagination="false"
 							bordered
 						>
