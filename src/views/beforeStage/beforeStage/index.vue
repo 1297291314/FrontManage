@@ -8,7 +8,7 @@ import { message } from 'ant-design-vue'
 //  数据
 const searchQuery = ref({ page: 1, limit: 9999, tradingDay: moment().startOf('day').format('YYYYMMDD') })
 const searchQueryTab = ref({
-	tradingDay: '20230601',//moment().startOf('day').format('YYYYMMDD'),
+	tradingDay: '20230322',//moment().startOf('day').format('YYYYMMDD'),
 	platformType: 'STOCK'
 })
 const activeKey = ref('1')
@@ -76,21 +76,21 @@ const columns2Stock = ref([{
           },
           {
             title: '开始时间',
-			dataIndex: 'beginTimePar',
+			dataIndex: 'startTime',
 			align: 'center',
-            key: 'beginTimePar',
+            key: 'startTime',
           },
           {
             title: '完成时间',
-            dataIndex: 'finishTimePar',
+            dataIndex: 'endTime',
 			align: 'center',
-            key: 'finishTimePar',
+            key: 'endTime',
           },
           {
             title: '活动状态',
-            dataIndex: 'activeStatusPar',
+            dataIndex: 'activeStatus',
 			align: 'center',
-            key: 'activeStatusPar',
+            key: 'activeStatus',
           },
           {
             title: '操作',
@@ -100,43 +100,51 @@ const columns2Stock = ref([{
           }])
 const tableList2Stock = ref([{
 	busiPar: '业务活动',
-	beginTimePar: ' 没有时间就打钩子',
-	finishTimePar: '',
+	tbStatus:'1',
+	startTime: ' 没有时间就打钩子',
+	endTime: '',
 	activeStatusPar: '成功'
 },{
 	busiPar: 'CDB数据预处理',
-	beginTimePar: ' ',
-	finishTimePar: '',
+	tbStatus:'3',
+	startTime: ' ',
+	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: '读入结算后数据',
-	beginTimePar: '',
-	finishTimePar: '',
+	tbStatus:'5',
+	startTime: '',
+	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: '处理',
-	beginTimePar: ' ',
-	finishTimePar: '',
+	tbStatus:'7',
+	startTime: ' ',
+	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: '推送',
-	beginTimePar: '',
-	finishTimePar: '',
+	tbStatus:'9',
+	startTime: '',
+	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: '归档',
-	beginTimePar: '',
-	finishTimePar: '',
+	tbStatus:'D',
+	startTime: '',
+	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: 'Checkl',
-	beginTimePar: '',
-	finishTimePar: '',
+	tbStatus:'H1',
+	startTime: '',
+	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: 'Checkll',
-	beginTimePar: '',
-	finishTimePar: '',
+	tbStatus:'H2',
+	startTime: '',
+	endTime: '',
 	activeStatusPar: ''
 }])
 // 方法
@@ -163,6 +171,24 @@ const dataFetch2 = () => {
 	api.beforeStageStatus({ ...searchQueryTab.value })
 		.then((res) => {
 			console.log(res)
+			tableList2Stock.value.map((item2,index2) => {
+				let existFlag = false
+				res.map((item) => {
+					if (item.tbStatus === item2.tbStatus[0]) {
+						existFlag = true
+						tableList2Stock.value[index2].startTime = item.startTime
+						tableList2Stock.value[index2].endTime = item.endTime
+						if (!item.endTime) {
+							tableList2Stock.value[index2].activeStatus = 1
+						} else {
+							tableList2Stock.value[index2].activeStatus = 2
+						}
+					}
+				})
+				if (!existFlag) {
+					tableList2Stock.value[index2].activeStatus = 0
+				}
+			})
 		})
 }
 // 周期
