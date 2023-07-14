@@ -284,7 +284,7 @@ onBeforeMount(() => {
 		</div>
 		<a-drawer
 			title="数据库连接信息"
-			width="670"
+			width="800"
 			destroy-on-close
 			:visible="editVisibleDataSource"
 			:mask-closable="true"
@@ -297,7 +297,7 @@ onBeforeMount(() => {
 		</a-drawer>
 		<a-drawer
 			title="JVM信息"
-			width="670"
+			width="800"
 			destroy-on-close
 			:visible="editVisibleJVM"
 			:mask-closable="true"

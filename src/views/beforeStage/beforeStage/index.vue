@@ -2,16 +2,24 @@
 import { ref, onBeforeMount, inject, defineComponent } from 'vue'
 import moment from 'moment'
 import api from '@/api/beforeStage'
+import apiComponent from '@/api/componentServer'
+import CheckModal from './components/CheckModal.vue'
 import { message } from 'ant-design-vue'
 
-
+// 组件
+defineComponent({ CheckModal })
 //  数据
+const showElement = ref('index')
 const searchQuery = ref({ page: 1, limit: 9999, tradingDay: moment().startOf('day').format('YYYYMMDD') })
 const searchQueryTab = ref({
-	tradingDay: '20230322',//moment().startOf('day').format('YYYYMMDD'),
-	platformType: 'STOCK'
+	tradingDay: 20230301,//moment().startOf('day').format('YYYYMMDD'),
+	platformType: 'STOCK',
+	checkPlatformType: '1',
+	serverPlatformType: '0'
 })
-const activeKey = ref('1')
+const componentServer = ref([])
+const urlIDFlag = ref(false)
+// const activeKey = ref('1')
 const columns1 = ref([{
             title: '准备开始执行时间',
             dataIndex: 'planTime',
@@ -90,6 +98,7 @@ const columns2Stock = ref([{
             title: '活动状态',
             dataIndex: 'activeStatus',
 			align: 'center',
+			slotScope:{customElements:'activeStatus'},
             key: 'activeStatus',
           },
           {
@@ -100,54 +109,74 @@ const columns2Stock = ref([{
           }])
 const tableList2Stock = ref([{
 	busiPar: '业务活动',
-	tbStatus:'1',
-	startTime: ' 没有时间就打钩子',
+	tbStatus: '1',
+	optionStatus: '1',
+	startTime: '',
 	endTime: '',
 	activeStatusPar: '成功'
 },{
 	busiPar: 'CDB数据预处理',
 	tbStatus:'3',
+	optionStatus: '2',
 	startTime: ' ',
 	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: '读入结算后数据',
 	tbStatus:'5',
+	optionStatus: '3',
 	startTime: '',
 	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: '处理',
 	tbStatus:'7',
+	optionStatus: '4',
 	startTime: ' ',
 	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: '推送',
-	tbStatus:'9',
+	tbStatus: '9',
+	optionStatus: '9',
 	startTime: '',
 	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: '归档',
-	tbStatus:'D',
+	tbStatus: 'D',
+
+	optionStatus: 'D',
 	startTime: '',
 	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: 'Checkl',
-	tbStatus:'H1',
+	tbStatus: 'H1',
+
+	optionStatus: 'H',
 	startTime: '',
 	endTime: '',
 	activeStatusPar: ''
 },{
 	busiPar: 'Checkll',
 	tbStatus:'H2',
+	optionStatus: 'J',
 	startTime: '',
 	endTime: '',
 	activeStatusPar: ''
 }])
 // 方法
+const componentServerFetch = () => {
+	apiComponent.getClientList().then((res) => {
+		res.map(item => {
+			if (item.requestInfoDOS) {
+				componentServer.value = [...componentServer.value,...item.requestInfoDOS]
+			}
+		})
+
+	})
+}
 const dataFetch1 = () => {
 	api.timedTaskLog({ ...searchQuery.value }).then((res) => {
 		tableList1.value.map((itemTable,indexTable) => {
@@ -179,20 +208,72 @@ const dataFetch2 = () => {
 						tableList2Stock.value[index2].startTime = item.startTime
 						tableList2Stock.value[index2].endTime = item.endTime
 						if (!item.endTime) {
-							tableList2Stock.value[index2].activeStatus = 1
+							tableList2Stock.value[index2].activeStatus = '执行中'
 						} else {
-							tableList2Stock.value[index2].activeStatus = 2
+							tableList2Stock.value[index2].activeStatus = '成功'
 						}
 					}
 				})
 				if (!existFlag) {
-					tableList2Stock.value[index2].activeStatus = 0
+					tableList2Stock.value[index2].activeStatus = '失败'
 				}
 			})
 		})
+
+
 }
+const handleClose = (str) => {
+	showElement.value = str
+}
+const tabChange = (key) => {
+	console.log(key)
+	if (key === '1') {
+		searchQueryTab.value.platformType = 'STOCK'
+		searchQueryTab.value.checkPlatformType = '1'
+		searchQueryTab.value.serverPlatformType = '0'
+	} else if (key === '2') {
+		searchQueryTab.value.platformType = 'CREDIT'
+		searchQueryTab.value.checkPlatformType = '2'
+		searchQueryTab.value.serverPlatformType = '1'
+	} else if (key === '3') {
+		searchQueryTab.value.platformType = 'OPTION'
+		searchQueryTab.value.checkPlatformType = '3'
+		searchQueryTab.value.serverPlatformType = '2'
+	} else if (key === '4') {
+		searchQueryTab.value.platformType = 'SELF'
+		searchQueryTab.value.checkPlatformType = '4'
+		searchQueryTab.value.serverPlatformType = '4'
+	}
+}
+const checkModalshow = (str) => {
+	showElement.value = 'checkLog'
+}
+const doOnThisStep = (step) => {
+	message.success('请耐心等待返回结果')
+	let urlID = ''
+	componentServer.value.map(item => {
+		if (item.platformType === searchQueryTab.value.serverPlatformType) {
+			if (item.task === step) {
+				urlID = item.urlID
+			}
+		}
+	})
+	if (urlID) {
+		urlIDFlag.value = true
+		api.proxyReq({ urlID })
+			.then(res => {
+				message.success(res)
+			}).finally(res => {
+				urlIDFlag.value = false
+			})
+	} else {
+		message.error('暂无')
+	}
+}
+
 // 周期
 onBeforeMount(() => {
+	componentServerFetch()
 	dataFetch1()
 	dataFetch2()
 })
@@ -202,7 +283,7 @@ onBeforeMount(() => {
 
 <template>
 	<div class="before-container view-container">
-		<div class="before-main">
+		<div class="before-main" v-if="showElement === 'index'">
 			<div class="title">1.盘前上场准备工作执行情况</div>
 			<a-form-item  label="交易日日期">
 				<a-date-picker class="force-table__form" v-model:value="searchQuery.tradingDay" placeholder="选择交易日日期" @change="dataFetch1" value-format="YYYYMMDD" :allowClear="false" />
@@ -220,8 +301,8 @@ onBeforeMount(() => {
 				</template>
 			</a-table>
 			<a-divider style="margin-bottom: 24px"/>
-			<div class="title">2.盘前上场工作执行情况(22:30开始等待执行)</div>
-			<a-tabs v-model:activeKey="activeKey">
+			<div class="title">2.盘前上场工作执行情况(23:00开始等待执行)</div>
+			<a-tabs @change="tabChange" v-model:activeKey="searchQueryTab.checkPlatformType">
 				<a-tab-pane key="1" tab="现货">
 					<a-card>
 						<h3 class="sub_title">2.1.执行过程</h3>
@@ -232,14 +313,30 @@ onBeforeMount(() => {
 							bordered
 						>
 							<template
-								slot="status"
-								slot-scope="status">
-								<a-badge :status="status | statusTypeFilter" :text="status | statusFilter"/>
+								slot="activeStatus"
+								slot-scope="scope">
+								<span>
+									{{scope | activeStatusFilter}}
+								</span>
+							</template>
+							<template #bodyCell="{ column, text, record }">
+								<template v-if="column.dataIndex === 'options'">
+									<!-- {{ record }} -->
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus !== '1'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>Redo on this step</a>
+									</a-popconfirm>
+								</template>
 							</template>
 						</a-table>
 						<a-divider style="margin-bottom: 24px"/>
 						<h3 class="sub_title">2.2.执行结果 (Checkll详情)</h3>
-						<div>线上已经生成了文件</div>
+						<a-button type="link" @click="checkModalshow('1')">
+							线上已经生成了文件
+						</a-button>
 						<a-divider style="margin-bottom: 24px"/>
 						<h3 class="sub_title">2.3.奇点柜台启动</h3>
 						<div style="margin-bottom: 24px;">启动奇点节点</div>
@@ -264,6 +361,7 @@ onBeforeMount(() => {
 				<a-tab-pane key="4" tab="自营">自营</a-tab-pane>
 			</a-tabs>
 		</div>
+		<check-modal v-if="showElement === 'checkLog'" :platformType="searchQueryTab"  @close="handleClose"/>
 	</div>
 </template>
 

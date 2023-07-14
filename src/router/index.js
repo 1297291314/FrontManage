@@ -60,7 +60,7 @@ store.commit('setUserRoutes', { userRoutes })
 const routes = [
 	{
 		path: '',
-		redirect: '/beforeStage'
+		redirect: '/workbench'
 	},
 	{
 		path: '/error',

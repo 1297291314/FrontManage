@@ -84,3 +84,7 @@
 	height: 32px !important;
 	line-height: 32px !important;
 }
+.ant-descriptions-item-container .ant-descriptions-item-label,
+.ant-descriptions-item-container .ant-descriptions-item-content{
+	max-width: 50%;
+}
