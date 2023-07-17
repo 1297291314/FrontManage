@@ -31,7 +31,19 @@ const logInfo = ref({
 const logMessage = props.IP.logFileTwo || ''
 
 const dataShow = () => {
-	logInfo.value.showLogArr = [...logArr.value.slice((logInfo.value.page - 1) * logInfo.value.limit, (logInfo.value.page) * logInfo.value.limit)]
+	const dateExp = /(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})/
+	const infoExp = /(INFO)/
+	const errorExp = /(ERROR)/
+	const warnExp = /(WARN)/
+	const fatalExp = /(FATAL)/
+	const showLogArrDeal = [...logArr.value.slice((logInfo.value.page - 1) * logInfo.value.limit, (logInfo.value.page) * logInfo.value.limit)]
+	let showLogArr = []
+	showLogArrDeal.map((item) => {
+		showLogArr.push(item.replace(dateExp,'<span style="color:green">$1</span>').replace(infoExp,'<span style="color:blue">$1</span>').replace(errorExp,'<span style="color:orange">$3</span>').replace(warnExp,'<span style="color:red">$1</span>').replace(fatalExp,'<span style="color:red">$1</span>'))
+		// showLogArr.push(item.replace(dateExp,'<span style="color:#b7eb8f;">$1</span>'))
+	})
+	logInfo.value.showLogArr = showLogArr
+	console.log(logInfo.value.showLogArr)
 }
 const pageChange = (page) => {
 	logInfo.value.page = page
@@ -78,7 +90,7 @@ onUnmounted(() => {
 		<h2 class="log-header">日志地址：{{ logMessage }}<a-button class="log-back" @click="goBack">返回</a-button></h2>
 		<div class="log-info" :key="logInfo.page" :style="{'overflow-y':'auto'}">
 			<!-- <p v-html="logStr"/> -->
-			<p v-for="(item,index) in logInfo.showLogArr" :key="index">{{ item }}</p>
+			<p v-for="(item,index) in logInfo.showLogArr" :key="index" v-html="item"></p>
 
 		</div>
 		<div class="log-footer">

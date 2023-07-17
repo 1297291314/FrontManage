@@ -17,7 +17,18 @@ const logInfo = ref({
 const logMessage = $utils.storageSession.get('IP').logFileOne
 
 const dataShow = () => {
-	logInfo.value.showLogArr = [...logArr.value.slice((logInfo.value.page - 1) * logInfo.value.limit, (logInfo.value.page) * logInfo.value.limit)]
+	const dateExp = /(\d{4}-\d{2}-\d{2}.*\d{2}:\d{2}: \d{2})/
+	const infoExp = /(INFO)/i
+	const errorExp = /(ERROR)/i
+	const warnExp = /(WARN)/i
+	const fatalExp = /(FATAL)/i
+	const showLogArrDeal = [...logArr.value.slice((logInfo.value.page - 1) * logInfo.value.limit, (logInfo.value.page) * logInfo.value.limit)]
+	let showLogArr = []
+	showLogArrDeal.map((item) => {
+		// showLogArr.push(item.replace(dateExp,infoExp,errorExp,warnExp,fatalExp,'<span style="color:#b7eb8f">$1</span>','<span style="color:#91caff">$2</span>','<span style="color:#ffe58f">$3</span>','<span style="color:red">$4</span>','<span style="color:red">$5</span>'))
+		// showLogArr.push(item.replace(dateExp,'<span style="color:#b7eb8f">$1</span>'))
+	})
+	logInfo.value.showLogArr = showLogArr
 }
 const pageChange = (page) => {
 	logInfo.value.page = page
@@ -57,7 +68,7 @@ onUnmounted(() => {
 		<h3 class="log-header">日志地址：{{ logMessage }}</h3>
 		<div class="log-info" :style="{'overflow-y':'auto'}">
 			<!-- <p v-html="logStr"/> -->
-			<p v-for="item in logInfo.showLogArr" :key="item">{{ item }}</p>
+			<p v-for="item in logInfo.showLogArr" :key="item" v-html="item"></p>
 
 		</div>
 		<div class="log-footer">

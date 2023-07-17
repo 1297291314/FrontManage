@@ -28,26 +28,24 @@ const logInfo = ref({
 
 
 const dataShow = () => {
-	const dealArr = [...logArr.value.slice((logInfo.value.page - 1) * logInfo.value.limit, (logInfo.value.page) * logInfo.value.limit)]
-	const errorMatch = /ERROR/i
-	dealArr.map((item) => {
-		const logItem = {}
-		if (errorMatch.test(item)) {
-			logItem.errorFlag = true,
-			logItem.str = item.substr(5)
-		} else {
-			logItem.errorFlag = false,
-			logItem.str = item
-		}
-		logInfo.value.showLogArr.push(logItem)
+	const dateExp = /(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})/
+	const infoExp = /(INFO)/
+	const errorExp = /(ERROR)/
+	const warnExp = /(WARN)/
+	const fatalExp = /(FATAL)/
+	const showLogArrDeal = [...logArr.value.slice((logInfo.value.page - 1) * logInfo.value.limit, (logInfo.value.page) * logInfo.value.limit)]
+	let showLogArr = []
+	showLogArrDeal.map((item) => {
+		showLogArr.push(item.replace(dateExp,'<span style="color:green">$1</span>').replace(infoExp,'<span style="color:blue">$1</span>').replace(errorExp,'<span style="color:orange">$3</span>').replace(warnExp,'<span style="color:red">$1</span>').replace(fatalExp,'<span style="color:red">$1</span>'))
+		// showLogArr.push(item.replace(dateExp,'<span style="color:#b7eb8f;">$1</span>'))
 	})
+	logInfo.value.showLogArr = showLogArr
 }
 const pageChange = (page) => {
 	logInfo.value.page = page
 	dataShow()
 }
 const pageSizeChange = (current, pageSize) => {
-	console.log(pageSize)
 	logInfo.value.limit = pageSize
 	dataShow()
 }
@@ -69,9 +67,7 @@ onMounted(() => {
 		<h2 class="log-header"  @click="goBack">checkII日志详情<a-button class="log-back" @click="goBack">返回</a-button></h2>
 		<div class="log-info" :key="logInfo.page" :style="{'overflow-y':'auto'}">
 			<!-- <p v-html="logStr"/> -->
-			<p v-for="(item,index) in logInfo.showLogArr" :key="index">
-				<span v-if="item.errorFlag"  style="color: red;">ERROR</span>
-				{{ item.str }}
+			<p v-for="(item,index) in logInfo.showLogArr" :key="index" v-html="item">
 			</p>
 		</div>
 		<div class="log-footer">

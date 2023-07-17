@@ -199,7 +199,6 @@ const dataFetch1 = () => {
 const dataFetch2 = () => {
 	api.beforeStageStatus({ ...searchQueryTab.value })
 		.then((res) => {
-			console.log(res)
 			tableList2Stock.value.map((item2,index2) => {
 				let existFlag = false
 				res.map((item) => {
@@ -226,24 +225,25 @@ const handleClose = (str) => {
 	showElement.value = str
 }
 const tabChange = (key) => {
-	console.log(key)
 	if (key === '1') {
 		searchQueryTab.value.platformType = 'STOCK'
-		searchQueryTab.value.checkPlatformType = '1'
+		searchQueryTab.value.checkPlatformType = '0'
 		searchQueryTab.value.serverPlatformType = '0'
 	} else if (key === '2') {
 		searchQueryTab.value.platformType = 'CREDIT'
-		searchQueryTab.value.checkPlatformType = '2'
+		searchQueryTab.value.checkPlatformType = '1'
 		searchQueryTab.value.serverPlatformType = '1'
 	} else if (key === '3') {
 		searchQueryTab.value.platformType = 'OPTION'
-		searchQueryTab.value.checkPlatformType = '3'
+		searchQueryTab.value.checkPlatformType = '2'
 		searchQueryTab.value.serverPlatformType = '2'
 	} else if (key === '4') {
 		searchQueryTab.value.platformType = 'SELF'
 		searchQueryTab.value.checkPlatformType = '4'
 		searchQueryTab.value.serverPlatformType = '4'
 	}
+	dataFetch2()
+
 }
 const checkModalshow = (str) => {
 	showElement.value = 'checkLog'
@@ -283,7 +283,7 @@ onBeforeMount(() => {
 
 <template>
 	<div class="before-container view-container">
-		<div class="before-main" v-if="showElement === 'index'">
+		<div class="before-main" v-show="showElement === 'index'">
 			<div class="title">1.盘前上场准备工作执行情况</div>
 			<a-form-item  label="交易日日期">
 				<a-date-picker class="force-table__form" v-model:value="searchQuery.tradingDay" placeholder="选择交易日日期" @change="dataFetch1" value-format="YYYYMMDD" :allowClear="false" />
@@ -302,7 +302,7 @@ onBeforeMount(() => {
 			</a-table>
 			<a-divider style="margin-bottom: 24px"/>
 			<div class="title">2.盘前上场工作执行情况(23:00开始等待执行)</div>
-			<a-tabs @change="tabChange" v-model:activeKey="searchQueryTab.checkPlatformType">
+			<a-tabs @change="tabChange">
 				<a-tab-pane key="1" tab="现货">
 					<a-card>
 						<h3 class="sub_title">2.1.执行过程</h3>
@@ -356,12 +356,64 @@ onBeforeMount(() => {
 						</a-descriptions>
 					</a-card>
 				</a-tab-pane>
-				<a-tab-pane key="2" tab="两融" force-render>两融</a-tab-pane>
+				<a-tab-pane key="2" tab="两融" force-render>
+					<a-card>
+						<h3 class="sub_title">2.1.执行过程</h3>
+						<a-table
+							:columns="columns2Stock"
+							:dataSource="tableList2Stock"
+							:pagination="false"
+							bordered
+						>
+							<template
+								slot="activeStatus"
+								slot-scope="scope">
+								<span>
+									{{scope | activeStatusFilter}}
+								</span>
+							</template>
+							<template #bodyCell="{ column, text, record }">
+								<template v-if="column.dataIndex === 'options'">
+									<!-- {{ record }} -->
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus !== '1'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>Redo on this step</a>
+									</a-popconfirm>
+								</template>
+							</template>
+						</a-table>
+						<a-divider style="margin-bottom: 24px"/>
+						<h3 class="sub_title">2.2.执行结果 (Checkll详情)</h3>
+						<a-button type="link" @click="checkModalshow('2')">
+							线上已经生成了文件
+						</a-button>
+						<!-- <a-divider style="margin-bottom: 24px"/>
+						<h3 class="sub_title">2.3.奇点柜台启动</h3>
+						<div style="margin-bottom: 24px;">启动奇点节点</div>
+						<a-divider dashed style="margin-bottom: 12px"/>
+						<a-descriptions :column="{ md: 5}"  title="节点启动完成时间">
+							<a-descriptions-item label="节点1">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点2">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点3">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点4">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+						</a-descriptions> -->
+					</a-card>
+				</a-tab-pane>
 				<a-tab-pane key="3" tab="期权">期权</a-tab-pane>
 				<a-tab-pane key="4" tab="自营">自营</a-tab-pane>
 			</a-tabs>
 		</div>
-		<check-modal v-if="showElement === 'checkLog'" :platformType="searchQueryTab"  @close="handleClose"/>
+		<check-modal v-show="showElement === 'checkLog'" :platformType="searchQueryTab"  @close="handleClose"/>
 	</div>
 </template>
 
