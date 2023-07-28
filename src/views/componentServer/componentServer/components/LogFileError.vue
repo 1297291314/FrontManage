@@ -28,7 +28,8 @@ const logInfo = ref({
 	showLogArr: []
 })
 
-const logMessage = props.IP.logFileTwo || ''
+const logMessage = `${props.IP.id}|${props.IP.logFileTwo}` || ''
+
 
 const dataShow = () => {
 	const dateExp = /(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})/
@@ -39,18 +40,16 @@ const dataShow = () => {
 	const showLogArrDeal = [...logArr.value.slice((logInfo.value.page - 1) * logInfo.value.limit, (logInfo.value.page) * logInfo.value.limit)]
 	let showLogArr = []
 	showLogArrDeal.map((item) => {
-		showLogArr.push(item.replace(dateExp,'<span style="color:green">$1</span>').replace(infoExp,'<span style="color:blue">$1</span>').replace(errorExp,'<span style="color:orange">$1</span>').replace(warnExp,'<span style="color:red">$1</span>').replace(fatalExp,'<span style="color:red">$1</span>'))
+		showLogArr.push(item.replace(dateExp,'<span style="color:#1dc11d">$1</span>').replace(infoExp,'<span style="color:blue">$1</span>').replace(errorExp,'<span style="color:orange">$1</span>').replace(warnExp,'<span style="color:red">$1</span>').replace(fatalExp,'<span style="color:red">$1</span>'))
 		// showLogArr.push(item.replace(dateExp,'<span style="color:#b7eb8f;">$1</span>'))
 	})
 	logInfo.value.showLogArr = showLogArr
-	console.log(logInfo.value.showLogArr)
 }
 const pageChange = (page) => {
 	logInfo.value.page = page
 	dataShow()
 }
 const pageSizeChange = (current, pageSize) => {
-	console.log(pageSize)
 	logInfo.value.limit = pageSize
 	dataShow()
 }
@@ -63,8 +62,12 @@ onMounted(() => {
 		return
 	}
 	logStr.value = ''
+	let hostname = location.hostname
+	if (location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+		hostname = '10.189.66.90'
+	}
 	logSocket.value = new $utils.Socket({
-		url: 'ws://10.189.66.90:8001/logWS',
+		url: 'ws://' + hostname + ':8001/logWS',
 		message: logMessage
 	})
 	logSocket.value.onMessage((res) => {

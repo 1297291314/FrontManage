@@ -29,7 +29,6 @@ const tableList = ref({}
 
 const dataFetch = () => {
 	api.getJVMInfo({ ...props.IP }).then((res) => {
-		console.log(res)
 		tableList.value = { ...res }
 	})
 }

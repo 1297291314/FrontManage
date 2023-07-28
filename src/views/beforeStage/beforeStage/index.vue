@@ -12,9 +12,9 @@ defineComponent({ CheckModal })
 const showElement = ref('index')
 const searchQuery = ref({ page: 1, limit: 9999, tradingDay: moment().startOf('day').format('YYYYMMDD') })
 const searchQueryTab = ref({
-	tradingDay: 20230301,//moment().startOf('day').format('YYYYMMDD'),
+	tradingDay: moment().startOf('day').format('YYYYMMDD'), //20230301,
 	platformType: 'STOCK',
-	checkPlatformType: '1',
+	checkPlatformType: '0',
 	serverPlatformType: '0'
 })
 const componentServer = ref([])
@@ -45,7 +45,7 @@ const columns1 = ref([{
             key: 'executionTime',
           },
           {
-            title: '实际执行完成时间（ms）',
+            title: '实际执行完成时间',
             dataIndex: 'finishTime',
 			align: 'center',
             key: 'finishTime',
@@ -76,6 +76,7 @@ const tableList1 = ref([{
 	dataContent:'备份'
 	}])
 // const timedTaskLog = ref([])
+// stock
 const columns2Stock = ref([{
             title: '业务活动',
             dataIndex: 'busiPar',
@@ -108,62 +109,338 @@ const columns2Stock = ref([{
             key: 'options',
           }])
 const tableList2Stock = ref([{
-	busiPar: '业务活动',
+	busiPar: '结算后数据到位',
 	tbStatus: '1',
 	optionStatus: '1',
-	startTime: '',
-	endTime: '',
+	startTime: '无',
+	endTime: '无',
 	activeStatusPar: '成功'
 },{
 	busiPar: 'CDB数据预处理',
 	tbStatus:'3',
 	optionStatus: '2',
-	startTime: ' ',
-	endTime: '',
+	startTime: '无',
+	endTime: '无',
 	activeStatusPar: ''
 },{
 	busiPar: '读入结算后数据',
 	tbStatus:'5',
 	optionStatus: '3',
-	startTime: '',
-	endTime: '',
+	startTime: '无',
+	endTime: '无',
 	activeStatusPar: ''
 },{
 	busiPar: '处理',
 	tbStatus:'7',
 	optionStatus: '4',
-	startTime: ' ',
-	endTime: '',
+	startTime: '无',
+	endTime: '无',
 	activeStatusPar: ''
 },{
 	busiPar: '推送',
 	tbStatus: '9',
 	optionStatus: '9',
-	startTime: '',
-	endTime: '',
+	startTime: '无',
+	endTime: '无',
 	activeStatusPar: ''
 },{
 	busiPar: '归档',
 	tbStatus: 'D',
 
 	optionStatus: 'D',
-	startTime: '',
-	endTime: '',
+	startTime: '无',
+	endTime: '无',
 	activeStatusPar: ''
 },{
-	busiPar: 'Checkl',
+	busiPar: 'CheckI',
 	tbStatus: 'H1',
 
 	optionStatus: 'H',
-	startTime: '',
-	endTime: '',
+	startTime: '无',
+	endTime: '无',
 	activeStatusPar: ''
 },{
-	busiPar: 'Checkll',
+	busiPar: 'CheckII',
 	tbStatus:'H2',
 	optionStatus: 'J',
-	startTime: '',
-	endTime: '',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+	}])
+// credit
+const columns2Credit = ref([{
+            title: '业务活动',
+            dataIndex: 'busiPar',
+			key: 'busiPar',
+			align: 'center'
+          },
+          {
+            title: '开始时间',
+			dataIndex: 'startTime',
+			align: 'center',
+            key: 'startTime',
+          },
+          {
+            title: '完成时间',
+            dataIndex: 'endTime',
+			align: 'center',
+            key: 'endTime',
+          },
+          {
+            title: '活动状态',
+            dataIndex: 'activeStatus',
+			align: 'center',
+			slotScope:{customElements:'activeStatus'},
+            key: 'activeStatus',
+          },
+          {
+            title: '操作',
+            dataIndex: 'options',
+			align: 'center',
+            key: 'options',
+          }])
+const tableList2Credit = ref([{
+	busiPar: '结算后数据到位',
+	tbStatus: '1',
+	optionStatus: '1',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: '成功'
+},{
+	busiPar: 'CDB数据预处理',
+	tbStatus:'3',
+	optionStatus: '2',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '读入结算后数据',
+	tbStatus:'5',
+	optionStatus: '3',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '处理',
+	tbStatus:'7',
+	optionStatus: '4',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '推送',
+	tbStatus: '9',
+	optionStatus: '9',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '归档',
+	tbStatus: 'D',
+
+	optionStatus: 'D',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: 'CheckI',
+	tbStatus: 'H1',
+
+	optionStatus: 'H',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: 'CheckII',
+	tbStatus:'H2',
+	optionStatus: 'J',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+	}])
+
+// Sp期权
+const columns2Sp = ref([{
+            title: '业务活动',
+            dataIndex: 'busiPar',
+			key: 'busiPar',
+			align: 'center'
+          },
+          {
+            title: '开始时间',
+			dataIndex: 'startTime',
+			align: 'center',
+            key: 'startTime',
+          },
+          {
+            title: '完成时间',
+            dataIndex: 'endTime',
+			align: 'center',
+            key: 'endTime',
+          },
+          {
+            title: '活动状态',
+            dataIndex: 'activeStatus',
+			align: 'center',
+			slotScope:{customElements:'activeStatus'},
+            key: 'activeStatus',
+          },
+          {
+            title: '操作',
+            dataIndex: 'options',
+			align: 'center',
+            key: 'options',
+          }])
+const tableList2Sp = ref([{
+	busiPar: '结算后数据到位',
+	tbStatus: '1',
+	optionStatus: '1',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: '成功'
+},{
+	busiPar: 'CDB数据预处理',
+	tbStatus:'3',
+	optionStatus: '2',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '读入结算后数据',
+	tbStatus:'5',
+	optionStatus: '3',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '处理',
+	tbStatus:'7',
+	optionStatus: '4',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '推送',
+	tbStatus: '9',
+	optionStatus: '9',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '归档',
+	tbStatus: 'D',
+
+	optionStatus: 'D',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: 'CheckI',
+	tbStatus: 'H1',
+
+	optionStatus: 'H',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: 'CheckII',
+	tbStatus:'H2',
+	optionStatus: 'J',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+	}])
+// self
+const columns2Self = ref([{
+            title: '业务活动',
+            dataIndex: 'busiPar',
+			key: 'busiPar',
+			align: 'center'
+          },
+          {
+            title: '开始时间',
+			dataIndex: 'startTime',
+			align: 'center',
+            key: 'startTime',
+          },
+          {
+            title: '完成时间',
+            dataIndex: 'endTime',
+			align: 'center',
+            key: 'endTime',
+          },
+          {
+            title: '活动状态',
+            dataIndex: 'activeStatus',
+			align: 'center',
+			slotScope:{customElements:'activeStatus'},
+            key: 'activeStatus',
+          },
+          {
+            title: '操作',
+            dataIndex: 'options',
+			align: 'center',
+            key: 'options',
+          }])
+const tableList2Self = ref([{
+	busiPar: '结算后数据到位',
+	tbStatus: '1',
+	optionStatus: '1',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: '成功'
+},{
+	busiPar: 'CDB数据预处理',
+	tbStatus:'3',
+	optionStatus: '2',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '读入结算后数据',
+	tbStatus:'5',
+	optionStatus: '3',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '处理',
+	tbStatus:'7',
+	optionStatus: '4',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '推送',
+	tbStatus: '9',
+	optionStatus: '9',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+},{
+	busiPar: '归档',
+	tbStatus: 'D',
+
+	optionStatus: 'D',
+	startTime: '无',
+	endTime: '无',
+	activeStatusPar: ''
+	},
+	// {
+	// busiPar: 'CheckI',
+	// tbStatus: 'H1',
+
+	// optionStatus: 'H',
+	// startTime: '无',
+	// endTime: '无',
+	// activeStatusPar: ''
+	// },
+	{
+	busiPar: 'CheckII',
+	tbStatus:'H2',
+	optionStatus: 'J',
+	startTime: '无',
+	endTime: '无',
 	activeStatusPar: ''
 }])
 // 方法
@@ -196,31 +473,42 @@ const dataFetch1 = () => {
 
 	})
 }
+const tabListTransfer = (tableList2Stock,res) => {
+	tableList2Stock.value.map((item2,index2) => {
+		let existFlag = false
+		res.map((item) => {
+			if (item.tbStatus === item2.tbStatus[0]) {
+				existFlag = true
+				tableList2Stock.value[index2].startTime = item.startTime
+				tableList2Stock.value[index2].endTime = item.endTime
+				if (!item.endTime) {
+					tableList2Stock.value[index2].activeStatus = '执行中'
+				} else {
+					tableList2Stock.value[index2].activeStatus = '成功'
+				}
+			}
+		})
+		if (!existFlag&&tableList2Stock.value[index2].tbStatus!=='1') {
+			tableList2Stock.value[index2].activeStatus = '未执行'
+		}
+	})
+}
 const dataFetch2 = () => {
 	api.beforeStageStatus({ ...searchQueryTab.value })
 		.then((res) => {
-			tableList2Stock.value.map((item2,index2) => {
-				let existFlag = false
-				res.map((item) => {
-					if (item.tbStatus === item2.tbStatus[0]) {
-						existFlag = true
-						tableList2Stock.value[index2].startTime = item.startTime
-						tableList2Stock.value[index2].endTime = item.endTime
-						if (!item.endTime) {
-							tableList2Stock.value[index2].activeStatus = '执行中'
-						} else {
-							tableList2Stock.value[index2].activeStatus = '成功'
-						}
-					}
-				})
-				if (!existFlag) {
-					tableList2Stock.value[index2].activeStatus = '失败'
-				}
-			})
+			if (searchQueryTab.value.platformType === 'STOCK') {
+				tabListTransfer(tableList2Stock,res)
+			} else if (searchQueryTab.value.platformType === 'CREDIT'){
+				tabListTransfer(tableList2Credit,res)
+			} else if (searchQueryTab.value.platformType === 'SP') {
+				tabListTransfer(tableList2Sp,res)
+			} else if ((searchQueryTab.value.platformType === 'SELF')) {
+				tabListTransfer(tableList2Self,res)
+			}
+
 		})
-
-
 }
+
 const handleClose = (str) => {
 	showElement.value = str
 }
@@ -285,8 +573,8 @@ onBeforeMount(() => {
 	<div class="before-container view-container">
 		<div class="before-main" v-show="showElement === 'index'">
 			<div class="title">1.盘前上场准备工作执行情况</div>
-			<a-form-item  label="交易日日期">
-				<a-date-picker class="force-table__form" v-model:value="searchQuery.tradingDay" placeholder="选择交易日日期" @change="dataFetch1" value-format="YYYYMMDD" :allowClear="false" />
+			<a-form-item  label="日期">
+				<a-date-picker class="force-table__form" v-model:value="searchQuery.tradingDay" placeholder="选择日期" @change="dataFetch1" value-format="YYYYMMDD" :allowClear="false" />
 			</a-form-item>
 			<a-table
 				:columns="columns1"
@@ -323,17 +611,63 @@ onBeforeMount(() => {
 								<template v-if="column.dataIndex === 'options'">
 									<!-- {{ record }} -->
 									<a-popconfirm :disabled="urlIDFlag"
-										v-if="record.optionStatus !== '1'"
+										v-if="record.optionStatus === '2'"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<template #title>
+											<p>将删除当前CDB交易日期状态3，重置原力盘前状态，</p>
+											<p>请注意同一时间不能多次点击，此过程实际执行时间较长，</p>
+											<p>请耐心等待</p>
+										</template>
+										<a>全流程重执行(包含CDB)</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '3'"
 										title="确认执行该操作"
 										@confirm="doOnThisStep(record.optionStatus)"
 										>
-										<a>Redo on this step</a>
+										<a>全流程重执行(不含CDB)</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '4'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>下午版</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '9'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>推送</a>
+									</a-popconfirm>
+									<!-- <a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'D'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>全流程重执行(包含CDB)</a>
+									</a-popconfirm> -->
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'H'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>checkI + checkII</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'J'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>checkII</a>
 									</a-popconfirm>
 								</template>
 							</template>
 						</a-table>
 						<a-divider style="margin-bottom: 24px"/>
-						<h3 class="sub_title">2.2.执行结果 (Checkll详情)</h3>
+						<h3 class="sub_title">2.2.执行结果 (CheckII详情)</h3>
 						<a-button type="link" @click="checkModalshow('1')">
 							线上已经生成了文件
 						</a-button>
@@ -360,8 +694,8 @@ onBeforeMount(() => {
 					<a-card>
 						<h3 class="sub_title">2.1.执行过程</h3>
 						<a-table
-							:columns="columns2Stock"
-							:dataSource="tableList2Stock"
+							:columns="columns2Credit"
+							:dataSource="tableList2Credit"
 							:pagination="false"
 							bordered
 						>
@@ -376,17 +710,63 @@ onBeforeMount(() => {
 								<template v-if="column.dataIndex === 'options'">
 									<!-- {{ record }} -->
 									<a-popconfirm :disabled="urlIDFlag"
-										v-if="record.optionStatus !== '1'"
+										v-if="record.optionStatus === '2'"
+
+										@confirm="doOnThisStep(record.optionStatus)"
+										><template #title>
+											<p>将删除当前CDB交易日期状态3，重置原力盘前状态，</p>
+											<p>请注意同一时间不能多次点击，此过程实际执行时间较长，</p>
+											<p>请耐心等待</p>
+										</template>
+										<a>全流程重执行(包含CDB)</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '3'"
 										title="确认执行该操作"
 										@confirm="doOnThisStep(record.optionStatus)"
 										>
-										<a>Redo on this step</a>
+										<a>全流程重执行(不含CDB)</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '4'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>下午版</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '9'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>推送</a>
+									</a-popconfirm>
+									<!-- <a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'D'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>全流程重执行(包含CDB)</a>
+									</a-popconfirm> -->
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'H'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>checkI + checkII</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'J'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>checkII</a>
 									</a-popconfirm>
 								</template>
 							</template>
 						</a-table>
 						<a-divider style="margin-bottom: 24px"/>
-						<h3 class="sub_title">2.2.执行结果 (Checkll详情)</h3>
+						<h3 class="sub_title">2.2.执行结果 (CheckII详情)</h3>
 						<a-button type="link" @click="checkModalshow('2')">
 							线上已经生成了文件
 						</a-button>
@@ -409,11 +789,205 @@ onBeforeMount(() => {
 						</a-descriptions> -->
 					</a-card>
 				</a-tab-pane>
-				<a-tab-pane key="3" tab="期权">期权</a-tab-pane>
-				<a-tab-pane key="4" tab="自营">自营</a-tab-pane>
+				<a-tab-pane key="3" tab="期权"><a-card>
+						<h3 class="sub_title">2.1.执行过程</h3>
+						<a-table
+							:columns="columns2Sp"
+							:dataSource="tableList2Sp"
+							:pagination="false"
+							bordered
+						>
+							<template
+								slot="activeStatus"
+								slot-scope="scope">
+								<span>
+									{{scope | activeStatusFilter}}
+								</span>
+							</template>
+							<template #bodyCell="{ column, text, record }">
+								<template v-if="column.dataIndex === 'options'">
+									<!-- {{ record }} -->
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '2'"
+
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<template #title>
+											<p>将删除当前CDB交易日期状态3，重置原力盘前状态，</p>
+											<p>请注意同一时间不能多次点击，此过程实际执行时间较长，</p>
+											<p>请耐心等待</p>
+										</template>
+										<a>全流程重执行(包含CDB)</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '3'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>全流程重执行(不含CDB)</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '4'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>下午版</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '9'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>推送</a>
+									</a-popconfirm>
+									<!-- <a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'D'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>全流程重执行(包含CDB)</a>
+									</a-popconfirm> -->
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'H'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>checkI + checkII</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'J'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>checkII</a>
+									</a-popconfirm>
+								</template>
+							</template>
+						</a-table>
+						<a-divider style="margin-bottom: 24px"/>
+						<h3 class="sub_title">2.2.执行结果 (CheckII详情)</h3>
+						<a-button type="link" @click="checkModalshow('3')">
+							线上已经生成了文件
+						</a-button>
+						<!-- <a-divider style="margin-bottom: 24px"/>
+						<h3 class="sub_title">2.3.奇点柜台启动</h3>
+						<div style="margin-bottom: 24px;">启动奇点节点</div>
+						<a-divider dashed style="margin-bottom: 12px"/>
+						<a-descriptions :column="{ md: 5}"  title="节点启动完成时间">
+							<a-descriptions-item label="节点1">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点2">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点3">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点4">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+						</a-descriptions> -->
+					</a-card></a-tab-pane>
+				<a-tab-pane key="4" tab="自营"><a-card>
+						<h3 class="sub_title">2.1.执行过程</h3>
+						<a-table
+							:columns="columns2Self"
+							:dataSource="tableList2Self"
+							:pagination="false"
+							bordered
+						>
+							<template
+								slot="activeStatus"
+								slot-scope="scope">
+								<span>
+									{{scope | activeStatusFilter}}
+								</span>
+							</template>
+							<template #bodyCell="{ column, text, record }">
+								<template v-if="column.dataIndex === 'options'">
+									<!-- {{ record }} -->
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '2'"
+
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<template #title>
+											<p>将删除当前CDB交易日期状态3，重置原力盘前状态，</p>
+											<p>请注意同一时间不能多次点击，此过程实际执行时间较长，</p>
+											<p>请耐心等待</p>
+										</template>
+										<a>全流程重执行(包含CDB)</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '3'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>全流程重执行(不含CDB)</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '4'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>下午版</a>
+									</a-popconfirm>
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === '9'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>推送</a>
+									</a-popconfirm>
+									<!-- <a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'D'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>全流程重执行(包含CDB)</a>
+									</a-popconfirm> -->
+									<!-- <a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'H'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>checkI + checkII</a>
+									</a-popconfirm> -->
+									<a-popconfirm :disabled="urlIDFlag"
+										v-if="record.optionStatus === 'J'"
+										title="确认执行该操作"
+										@confirm="doOnThisStep(record.optionStatus)"
+										>
+										<a>checkII</a>
+									</a-popconfirm>
+								</template>
+							</template>
+						</a-table>
+						<a-divider style="margin-bottom: 24px"/>
+						<h3 class="sub_title">2.2.执行结果 (CheckII详情)</h3>
+						<a-button type="link" @click="checkModalshow('4')">
+							线上已经生成了文件
+						</a-button>
+						<!-- <a-divider style="margin-bottom: 24px"/>
+						<h3 class="sub_title">2.3.奇点柜台启动</h3>
+						<div style="margin-bottom: 24px;">启动奇点节点</div>
+						<a-divider dashed style="margin-bottom: 12px"/>
+						<a-descriptions :column="{ md: 5}"  title="节点启动完成时间">
+							<a-descriptions-item label="节点1">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点2">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点3">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点4">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+							<a-descriptions-item label="节点5">23:55</a-descriptions-item>
+						</a-descriptions> -->
+					</a-card></a-tab-pane>
 			</a-tabs>
 		</div>
-		<check-modal :key="searchQueryTab.checkPlatformType" v-show="showElement === 'checkLog'" :platformType="searchQueryTab"  @close="handleClose"/>
+		<check-modal v-if="showElement === 'checkLog'" :platformType="searchQueryTab"  @close="handleClose"/>
 	</div>
 </template>
 

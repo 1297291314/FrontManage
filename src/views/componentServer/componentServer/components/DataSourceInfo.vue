@@ -33,7 +33,6 @@ const tableList = ref([
 const dataFetch = () => {
 	tableList.value = []
 	api.getDataSourceInfo({ ...props.IP }).then((res) => {
-		console.log(res)
 		tableList.value = [...res]
 	}).finally(() => {
 					if (tableList.value.length === 0) {
@@ -42,7 +41,7 @@ const dataFetch = () => {
                 })
 }
 onMounted(() => {
-	console.log(props.IP)
+	// console.log(props.IP)
 	dataFetch()
 })
 </script>
