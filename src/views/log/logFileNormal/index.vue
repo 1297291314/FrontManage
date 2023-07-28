@@ -25,7 +25,7 @@ const dataShow = () => {
 	const showLogArrDeal = [...logArr.value.slice((logInfo.value.page - 1) * logInfo.value.limit, (logInfo.value.page) * logInfo.value.limit)]
 	let showLogArr = []
 	showLogArrDeal.map((item) => {
-		// showLogArr.push(item.replace(dateExp,infoExp,errorExp,warnExp,fatalExp,'<span style="color:#b7eb8f">$1</span>','<span style="color:#91caff">$2</span>','<span style="color:#ffe58f">$3</span>','<span style="color:red">$4</span>','<span style="color:red">$5</span>'))
+		// showLogArr.push(item.replace(dateExp,infoExp,errorExp,warnExp,fatalExp,'<span style="color:#b7eb8f">$1</span>','<span style="color:#91caff">$2</span>','<span style="color:#ffe58f">$1</span>','<span style="color:red">$4</span>','<span style="color:red">$5</span>'))
 		// showLogArr.push(item.replace(dateExp,'<span style="color:#b7eb8f">$1</span>'))
 	})
 	logInfo.value.showLogArr = showLogArr

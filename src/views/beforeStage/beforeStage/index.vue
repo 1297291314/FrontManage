@@ -234,7 +234,7 @@ const tabChange = (key) => {
 		searchQueryTab.value.checkPlatformType = '1'
 		searchQueryTab.value.serverPlatformType = '1'
 	} else if (key === '3') {
-		searchQueryTab.value.platformType = 'OPTION'
+		searchQueryTab.value.platformType = 'SP'
 		searchQueryTab.value.checkPlatformType = '2'
 		searchQueryTab.value.serverPlatformType = '2'
 	} else if (key === '4') {
@@ -413,7 +413,7 @@ onBeforeMount(() => {
 				<a-tab-pane key="4" tab="自营">自营</a-tab-pane>
 			</a-tabs>
 		</div>
-		<check-modal v-show="showElement === 'checkLog'" :platformType="searchQueryTab"  @close="handleClose"/>
+		<check-modal :key="searchQueryTab.checkPlatformType" v-show="showElement === 'checkLog'" :platformType="searchQueryTab"  @close="handleClose"/>
 	</div>
 </template>
 
