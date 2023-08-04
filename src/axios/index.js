@@ -6,7 +6,7 @@ import { notification } from 'ant-design-vue'
 const instance = axios.create({
 	// 创建实例
 	baseURL: server.api,
-	timeout: 20000
+	timeout: 30000
 	// headers: {'X-Custom-Header': 'foobar'}
 })
 //  拦截器用于拦截请求

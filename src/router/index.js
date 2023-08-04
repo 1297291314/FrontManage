@@ -38,13 +38,13 @@ const userRoutes = [
 				},
 				component: () => import('@/views/onStage/onStage/index.vue')
 			},
-			{
-				path: '/businessWeekly',
-				meta: {
-					title: '业务周报'
-				},
-				component: () => import('@/views/businessWeekly/businessWeekly/index.vue')
-			},
+			// {
+			// 	path: '/businessWeekly',
+			// 	meta: {
+			// 		title: '业务周报'
+			// 	},
+			// 	component: () => import('@/views/businessWeekly/businessWeekly/index.vue')
+			// },
 			{
 				path: '/componentServer',
 				meta: {
