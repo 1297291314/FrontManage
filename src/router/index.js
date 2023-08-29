@@ -46,6 +46,13 @@ const userRoutes = [
 			// 	component: () => import('@/views/businessWeekly/businessWeekly/index.vue')
 			// },
 			{
+				path: '/masterAndStandby',
+				meta: {
+					title: '主备机组件'
+				},
+				component: () => import('@/views/masterAndStandby/masterAndStandby/index.vue')
+			},
+			{
 				path: '/componentServer',
 				meta: {
 					title: '组件'
